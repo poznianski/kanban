@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata } from 'ne xt'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import React from 'react'
@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} bg-bg-main text-text-main p-5`}>{children}</body>
     </html>
   )
 }
