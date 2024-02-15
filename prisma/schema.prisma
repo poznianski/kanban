@@ -12,8 +12,8 @@ model Board {
   id        String   @id @default(uuid())
   name      String
   tasks     Task[]
-  createdAt DateTime
-  updatedAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Task {
@@ -24,6 +24,6 @@ model Task {
   boardId     String
   board       Board    @relation(fields: [boardId], references: [id])
   position    Int
-  createdAt   DateTime
-  updatedAt   DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

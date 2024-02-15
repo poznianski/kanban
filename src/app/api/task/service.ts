@@ -1,11 +1,11 @@
 import prisma from '../../../../prisma/db'
 
-interface Task {
+export interface ITask {
   id: string
   boardId: string
   title: string
   description?: string
-  status: 'ToDo' | 'In Progress' | 'Done'
+  status?: 'ToDo' | 'In Progress' | 'Done'
   position?: number
 }
 
@@ -28,7 +28,7 @@ export const createTask = async ({
   title,
   description,
   status = 'ToDo',
-}: Task) => {
+}: ITask) => {
   const lastTask = await prisma.task.aggregate({
     where: {
       boardId,
@@ -51,7 +51,7 @@ export const updateTask = ({
   description,
   status,
   position,
-}: Task) =>
+}: ITask) =>
   prisma.task.update({
     where: { id },
     data: {

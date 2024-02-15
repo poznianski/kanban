@@ -13,6 +13,7 @@ const config: Config = {
         'bg-secondary': '#222327',
         'text-main': '#c0c0c0',
         'theme-main': '#00796b',
+        'theme-secondary': '#01322b',
       },
     },
   },
