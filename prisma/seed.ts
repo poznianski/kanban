@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import prisma from './db'
 
 const main = async () => {
   try {
@@ -12,7 +10,7 @@ const main = async () => {
             {
               title: 'Task 1',
               description: 'This is task 1',
-              status: 'To Do',
+              status: 'ToDo',
               position: 1,
             },
             {

@@ -9,17 +9,21 @@ datasource db {
 }
 
 model Board {
-  id    String @id @default(uuid())
-  name  String
-  tasks Task[]
+  id        String   @id @default(uuid())
+  name      String
+  tasks     Task[]
+  createdAt DateTime
+  updatedAt DateTime
 }
 
 model Task {
-  id          String  @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
   description String?
   status      String
   boardId     String
-  board       Board   @relation(fields: [boardId], references: [id])
+  board       Board    @relation(fields: [boardId], references: [id])
   position    Int
+  createdAt   DateTime
+  updatedAt   DateTime
 }
