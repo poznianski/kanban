@@ -1,11 +1,24 @@
+import { ITask } from '@/app/api/task/service'
+
 import prisma from '../../../../prisma/db'
 
-interface Board {
+export interface IBoard {
   id: string
   name: string
+  tasks?: ITask[]
 }
 
 export const getAllBoards = () => prisma.board.findMany()
+
+export const getBoardById = (id: string) =>
+  prisma.board.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      tasks: true,
+    },
+  })
 
 export const createBoard = ({ name }: { name: string }) =>
   prisma.board.create({
@@ -14,7 +27,7 @@ export const createBoard = ({ name }: { name: string }) =>
     },
   })
 
-export const updateBoard = ({ id, name }: Board) =>
+export const updateBoard = ({ id, name }: IBoard) =>
   prisma.board.update({
     where: {
       id,

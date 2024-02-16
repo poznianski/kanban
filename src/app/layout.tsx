@@ -7,7 +7,7 @@ import './globals.scss'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Viacheslav Miasoiedov',
+  title: 'Viacheslav Miasoiedov | Incode Group',
   description: 'kanban',
 }
 

@@ -10,6 +10,7 @@ const Column = ({ title }: IColumn) => {
   return (
     <div className="flex-1 p-4 shadow-md shadow-theme-secondary bg-bg-secondary">
       <h1>{title}</h1>
+
       <Task
         title="Finish test"
         boardId={'123'}

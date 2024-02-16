@@ -542,25 +542,6 @@
   dependencies:
     tslib "^2.4.0"
 
-"@tanstack/eslint-plugin-query@^5.20.1":
-  version "5.20.1"
-  resolved "https://registry.yarnpkg.com/@tanstack/eslint-plugin-query/-/eslint-plugin-query-5.20.1.tgz#861afedd7cde6b98c88cf86a5923bb659122e7af"
-  integrity sha512-oIp7Wh90KHOm1FKCvcv87fiD2H96xo/crFrlhbvqBzR2f0tMEGOK/ANKMGNFQprd6BT6lyZhQPlOEkFdezsjIg==
-  dependencies:
-    "@typescript-eslint/utils" "^6.20.0"
-
-"@tanstack/query-core@5.20.5":
-  version "5.20.5"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.20.5.tgz#12bb02a937cc8f4f158b1428c0ddef5a1f48479b"
-  integrity sha512-T1W28gGgWn0A++tH3lxj3ZuUVZZorsiKcv+R50RwmPYz62YoDEkG4/aXHZELGkRp4DfrW07dyq2K5dvJ4Wl1aA==
-
-"@tanstack/react-query@^5.20.5":
-  version "5.20.5"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.20.5.tgz#ebf57b6d3344478d505ad8db09a8b29262a35dab"
-  integrity sha512-6MHwJ8G9cnOC/XKrwt56QMc91vN7hLlAQNUA0ubP7h9Jj3a/CmkUwT6ALdFbnVP+PsYdhW3WONa8WQ4VcTaSLQ==
-  dependencies:
-    "@tanstack/query-core" "5.20.5"
-
 "@trivago/prettier-plugin-sort-imports@^4.3.0":
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/@trivago/prettier-plugin-sort-imports/-/prettier-plugin-sort-imports-4.3.0.tgz#725f411646b3942193a37041c84e0b2116339789"
@@ -721,7 +702,7 @@
     semver "^7.5.4"
     ts-api-utils "^1.0.1"
 
-"@typescript-eslint/utils@6.21.0", "@typescript-eslint/utils@^6.20.0":
+"@typescript-eslint/utils@6.21.0":
   version "6.21.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-6.21.0.tgz#4714e7a6b39e773c1c8e97ec587f520840cd8134"
   integrity sha512-NfWVaC8HP9T8cbKQxHcsJBY5YE1O33+jpMwN45qzWWaPDZgLIbo12toGMWnmhvCpd3sIxkpDw3Wv1B3dYrbDQQ==
