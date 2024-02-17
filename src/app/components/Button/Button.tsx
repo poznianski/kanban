@@ -1,4 +1,4 @@
-import { BoardContext } from '@/app/context/BoardContext'
+import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 import { useContext } from 'react'
 
 const Button = ({ searchQuery }: { searchQuery: string }) => {

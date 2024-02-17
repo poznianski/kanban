@@ -1,5 +1,5 @@
 import Column from '@/app/components/Column/Column'
-import { BoardContext } from '@/app/context/BoardContext'
+import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 import { useContext } from 'react'
 
 const ColumnsList = () => {
@@ -12,7 +12,7 @@ const ColumnsList = () => {
   ]
 
   if (error) {
-    return <h1>{error}</h1>
+    return <h1 className="text-3xl text-center">{error}</h1>
   }
 
   if (board) {
@@ -20,8 +20,8 @@ const ColumnsList = () => {
       <section className="flex flex-col gap-5">
         <div className="flex flex-col justify-center items-center">
           {error && <h1>{error}</h1>}
-          <h1 className="mb-2 text-3xl">Name: {board?.name}</h1>
-          <h1 className="mb-2 text-2xl">ID: {board?.id}</h1>
+          <h1 className="mb-2 text-3xl">Name: {board.name}</h1>
+          <h1 className="mb-2 text-2xl">ID: {board.id}</h1>
         </div>
 
         <div className="flex gap-5">
@@ -29,6 +29,7 @@ const ColumnsList = () => {
             <Column
               key={index}
               title={title}
+              tasks={board.tasks?.filter((task) => task.status === title)}
             />
           ))}
         </div>

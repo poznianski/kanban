@@ -1,23 +1,13 @@
 'use client'
 
 import { IBoard } from '@/app/api/board/service'
+import {
+  IBoardContext,
+  initialValue,
+} from '@/app/context/BoardContext/initialValue'
 import { UNEXPECTED_ERROR } from '@/utils/constants'
 import axios from 'axios'
 import React, { ReactNode, useState } from 'react'
-
-interface IBoardContext {
-  board: IBoard | null
-  error: string
-  fetchBoardById: (boardId: string) => Promise<void>
-}
-
-const initialValue: IBoardContext = {
-  board: null,
-  error: '',
-  fetchBoardById: () => {
-    throw new Error('fetchBoardById placeholder')
-  },
-}
 
 export const BoardContext = React.createContext<IBoardContext>(initialValue)
 
