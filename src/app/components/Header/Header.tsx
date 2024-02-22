@@ -1,21 +1,27 @@
 import Button from '@/app/components/Button/Button'
 import SearchInput from '@/app/components/SearchInput/SearchInput'
-import React, { useState } from 'react'
+import { BoardContext } from '@/app/context/BoardContext/BoardContext'
+import React, { useContext, useState } from 'react'
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState<string>('')
+  const { fetchBoardById } = useContext(BoardContext)
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value)
   }
 
   return (
-    <header className="flex gap-20 mb-10">
+    <header className="mb-10 flex gap-20">
       <SearchInput
         searchQuery={searchQuery}
         handleSearchChange={handleSearchChange}
       />
-      <Button searchQuery={searchQuery} />
+
+      <Button
+        onClick={() => fetchBoardById(searchQuery)}
+        label="Load"
+      />
     </header>
   )
 }

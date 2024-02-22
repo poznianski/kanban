@@ -4,8 +4,8 @@ export interface ITask {
   id: string
   boardId: string
   title: string
-  description?: string
-  status?: 'ToDo' | 'In Progress' | 'Done'
+  description: string
+  status?: string
   position?: number
 }
 

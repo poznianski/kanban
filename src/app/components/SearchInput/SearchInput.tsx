@@ -1,10 +1,18 @@
-import React from 'react'
+import { BoardContext } from '@/app/context/BoardContext/BoardContext'
+import React, { useContext } from 'react'
 
 interface ISearchInput {
   searchQuery: string
   handleSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 const SearchInput = ({ searchQuery, handleSearchChange }: ISearchInput) => {
+  const { fetchBoardById } = useContext(BoardContext)
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      fetchBoardById(searchQuery)
+    }
+  }
+
   return (
     <input
       type="text"
@@ -13,6 +21,7 @@ const SearchInput = ({ searchQuery, handleSearchChange }: ISearchInput) => {
         text-text-main outline-none placeholder:text-text-main"
       value={searchQuery}
       onChange={handleSearchChange}
+      onKeyDown={(e) => handleKeyDown(e)}
     />
   )
 }

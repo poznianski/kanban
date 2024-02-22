@@ -1,18 +1,30 @@
-import { BoardContext } from '@/app/context/BoardContext/BoardContext'
-import { useContext } from 'react'
+import Image from 'next/image'
 
-const Button = ({ searchQuery }: { searchQuery: string }) => {
-  const { fetchBoardById } = useContext(BoardContext)
+interface IButton {
+  onClick?: () => void
+  isAdd?: boolean
+  label: string
+}
 
+const Button = ({ onClick, isAdd, label }: IButton) => {
   return (
     <button
       type="button"
       className="inline-flex h-[50px] w-[200px] items-center justify-center gap-2
-       rounded transition-all ease-in-out bg-theme-main hover:bg-theme-secondary
-       text-bg-secondary hover:text-text-main"
-      onClick={() => fetchBoardById(searchQuery)}
+       rounded bg-theme-main text-bg-secondary transition-all ease-in-out
+       hover:bg-theme-secondary hover:text-text-main"
+      onClick={onClick}
     >
-      Load
+      {isAdd && (
+        <Image
+          src="add.svg"
+          height="20"
+          width="20"
+          alt="add"
+          className="mr-2"
+        />
+      )}
+      {label}
     </button>
   )
 }
