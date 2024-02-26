@@ -1,12 +1,6 @@
-import { ITask } from '@/app/api/task/service'
+import { IBoard } from '@/types'
 
 import prisma from '../../../../prisma/db'
-
-export interface IBoard {
-  id: string
-  name: string
-  tasks?: ITask[]
-}
 
 export const getAllBoards = () => prisma.board.findMany()
 

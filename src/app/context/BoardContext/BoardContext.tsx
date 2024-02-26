@@ -1,12 +1,7 @@
 'use client'
 
-import { IBoard } from '@/app/api/board/service'
-import { ITask } from '@/app/api/task/service'
-import {
-  IBoardContext,
-  initialState,
-  initialTasks,
-} from '@/app/context/BoardContext/initialValue'
+import { initialState } from '@/app/context/BoardContext/initialValue'
+import { IBoard, IBoardContext } from '@/types'
 import { UNEXPECTED_ERROR } from '@/utils/constants'
 import axios from 'axios'
 import React, { ReactNode, useState } from 'react'
@@ -16,7 +11,6 @@ export const BoardContext = React.createContext<IBoardContext>(initialState)
 export const BoardProvider = ({ children }: { children: ReactNode }) => {
   const [board, setBoard] = useState<IBoard | null>(null)
   const [error, setError] = useState('')
-  const [tasks, setTasks] = useState<ITask[]>(initialTasks)
 
   const fetchBoardById = async (boardId: string) => {
     try {
@@ -33,7 +27,6 @@ export const BoardProvider = ({ children }: { children: ReactNode }) => {
       }
     }
   }
-
   // const updateTaskTitle = () => {}
 
   // const updateTaskClient = async ({
@@ -67,8 +60,6 @@ export const BoardProvider = ({ children }: { children: ReactNode }) => {
     fetchBoardById,
     board,
     error,
-    tasks,
-    setTasks,
   }
 
   return <BoardContext.Provider value={value}>{children}</BoardContext.Provider>

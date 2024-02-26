@@ -1,16 +1,4 @@
-import { IBoard } from '@/app/api/board/service'
-import { ITask } from '@/app/api/task/service'
-import React from 'react'
-
-export interface IBoardContext {
-  board: IBoard | null
-  error: string
-  fetchBoardById: (boardId: string) => Promise<void>
-  // updateTaskClient: (task: ITask) => Promise<void>
-  // updateTaskTitle: (id: string, title: string) => void
-  tasks: ITask[]
-  setTasks: React.Dispatch<React.SetStateAction<ITask[]>>
-}
+import { IBoardContext } from '@/types'
 
 export const initialTasks = [
   {
@@ -67,6 +55,4 @@ export const initialState: IBoardContext = {
   // updateTaskTitle: () => {
   //   throw new Error('updateTaskTitle placeholder')
   // },
-  tasks: initialTasks,
-  setTasks: () => {},
 }

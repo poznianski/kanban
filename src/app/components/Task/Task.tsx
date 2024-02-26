@@ -1,24 +1,26 @@
 'use client'
 
-import { ITask } from '@/app/api/task/service'
 import DeleteIcon from '@/app/components/icons/DeleteIcon/DeleteIcon'
 import DnDIcon from '@/app/components/icons/DnDIcon'
 import EditIcon from '@/app/components/icons/EditIcon/EditIcon'
-import { BoardContext } from '@/app/context/BoardContext/BoardContext'
+import { ITaskProps } from '@/types'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import React, { useContext, useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 const Task = ({
   id,
   title: initialTitle,
   description: initialDescription,
-}: ITask) => {
-  const { setTasks, tasks } = useContext(BoardContext)
+  status,
+  deleteTask,
+}: ITaskProps) => {
   const [editMode, setEditMode] = useState(false)
   const [title, setTitle] = useState(initialTitle)
   const [description, setDescription] = useState(initialDescription)
   const [showActions, setShowActions] = useState(false)
+  const prevTitle = useRef(title).current
+  const prevDescription = useRef(description).current
 
   const {
     attributes,
@@ -31,6 +33,9 @@ const Task = ({
     id,
     data: {
       type: 'Task',
+      title,
+      description,
+      status,
     },
     disabled: editMode,
   })
@@ -38,6 +43,11 @@ const Task = ({
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === ' ') e.stopPropagation()
     if (e.key === 'Enter') setEditMode(false)
+    if (e.key === 'Escape') {
+      setTitle(prevTitle)
+      setDescription(prevDescription)
+      setEditMode(false)
+    }
   }
 
   const style = {
@@ -48,22 +58,22 @@ const Task = ({
   if (isDragging) {
     return (
       <div
-        className="mb-4 min-h-[140px] rounded-2xl border-2 border-text-main
+        className="mb-4 min-h-[140px] w-[300px] rounded-2xl border-2 border-text-main
       bg-theme-main p-4 opacity-50"
+        style={style}
+        ref={setNodeRef}
+        {...listeners}
+        {...attributes}
       />
     )
-  }
-
-  const deleteTask = (taskId: string) => {
-    const newTasks = tasks.filter((task) => task.id !== taskId)
-    setTasks(newTasks)
   }
 
   return (
     <div
       style={style}
-      className="mb-4 h-[140px] w-[300px]  rounded-2xl border-2 border-transparent
-      bg-theme-main p-4 transition-all hover:border-text-main"
+      ref={setNodeRef}
+      className="relative mb-4 h-[140px] w-[300px] rounded-2xl border-2
+      border-transparent bg-theme-main p-4 hover:border-text-main"
       onMouseOver={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
@@ -75,9 +85,9 @@ const Task = ({
             </h1>
 
             <div
-              ref={setNodeRef}
               {...listeners}
               {...attributes}
+              style={{ cursor: 'grab' }}
             >
               <DnDIcon />
             </div>
