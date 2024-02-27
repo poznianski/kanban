@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <BoardProvider>
       <Header />
-      <main>
+      <main className="container mx-auto">
         <ColumnsList />
       </main>
     </BoardProvider>

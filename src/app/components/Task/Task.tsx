@@ -1,12 +1,13 @@
 'use client'
 
+import Button from '@/app/components/Button/Button'
 import DeleteIcon from '@/app/components/icons/DeleteIcon/DeleteIcon'
 import DnDIcon from '@/app/components/icons/DnDIcon'
 import EditIcon from '@/app/components/icons/EditIcon/EditIcon'
 import { ITaskProps } from '@/types'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 const Task = ({
   id,
@@ -19,8 +20,8 @@ const Task = ({
   const [title, setTitle] = useState(initialTitle)
   const [description, setDescription] = useState(initialDescription)
   const [showActions, setShowActions] = useState(false)
-  const prevTitle = useRef(title).current
-  const prevDescription = useRef(description).current
+  const prevTitle = useRef(title)
+  const prevDescription = useRef(description)
 
   const {
     attributes,
@@ -40,12 +41,25 @@ const Task = ({
     disabled: editMode,
   })
 
+  const exitEditMode = () => {
+    prevTitle.current = title
+    prevDescription.current = description
+    setEditMode(false)
+  }
+
+  useEffect(() => {
+    if (!editMode) {
+      prevTitle.current = title
+      prevDescription.current = description
+    }
+  }, [editMode, title, description])
+
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === ' ') e.stopPropagation()
-    if (e.key === 'Enter') setEditMode(false)
-    if (e.key === 'Escape') {
-      setTitle(prevTitle)
-      setDescription(prevDescription)
+    if (e.key === 'Enter') {
+      exitEditMode()
+    } else if (e.key === 'Escape') {
+      setTitle(prevTitle.current)
+      setDescription(prevDescription.current)
       setEditMode(false)
     }
   }
@@ -58,7 +72,7 @@ const Task = ({
   if (isDragging) {
     return (
       <div
-        className="mb-4 min-h-[140px] w-[300px] rounded-2xl border-2 border-text-main
+        className="mb-4 min-h-[140px]  rounded-2xl border-2 border-text-main
       bg-theme-main p-4 opacity-50"
         style={style}
         ref={setNodeRef}
@@ -72,7 +86,7 @@ const Task = ({
     <div
       style={style}
       ref={setNodeRef}
-      className="relative mb-4 h-[140px] w-[300px] rounded-2xl border-2
+      className="mb-4 h-[140px] w-full rounded-2xl border-2
       border-transparent bg-theme-main p-4 hover:border-text-main"
       onMouseOver={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
@@ -121,12 +135,14 @@ const Task = ({
       {showActions && (
         <div className="flex justify-end gap-4">
           {editMode ? (
-            <button
-              onClick={() => setEditMode(false)}
-              className="mt-2 rounded bg-blue-500 px-4 py-2 text-white"
-            >
-              Save
-            </button>
+            <div className="flex justify-center gap-2">
+              <div onClick={() => setEditMode(false)}>
+                <Button
+                  sm
+                  label="Save"
+                />
+              </div>
+            </div>
           ) : (
             <div className="flex items-center justify-center gap-4">
               <div

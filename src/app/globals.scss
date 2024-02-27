@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply bg-bg-main text-text-main p-5;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-theme-secondary rounded hover:bg-theme-main;
+}
+
 .icon {
   width: 26px;
   transition: 0.3s all ease;
@@ -13,3 +29,4 @@
     fill: white;
   }
 }
+

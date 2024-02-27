@@ -24,13 +24,12 @@ const Column = ({ title, tasks, addTask, deleteTask }: IColumn) => {
 
   return (
     <div
-      className="flex w-[350px] flex-col
-        items-center border-2 border-transparent bg-bg-secondary p-4"
+      className="flex w-[300px] min-w-[300px]  flex-col border-2 border-transparent bg-bg-secondary p-4"
       ref={setNodeRef}
     >
       <h1 className="mb-4 text-center text-xl font-bold">{title}</h1>
 
-      <div className="flex flex-grow flex-col">
+      <div className="flex flex-col items-center">
         <SortableContext items={tasksIds}>
           {tasks.map(({ id, title, boardId, description, status }) => (
             <Task

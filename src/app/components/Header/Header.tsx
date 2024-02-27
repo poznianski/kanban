@@ -12,16 +12,18 @@ const Header = () => {
   }
 
   return (
-    <header className="mb-10 flex gap-20">
-      <SearchInput
-        searchQuery={searchQuery}
-        handleSearchChange={handleSearchChange}
-      />
+    <header className="container mx-auto">
+      <div className="mb-5 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:gap-20">
+        <SearchInput
+          searchQuery={searchQuery}
+          handleSearchChange={handleSearchChange}
+        />
 
-      <Button
-        onClick={() => fetchBoardById(searchQuery)}
-        label="Load"
-      />
+        <Button
+          onClick={() => fetchBoardById(searchQuery)}
+          label="Load"
+        />
+      </div>
     </header>
   )
 }

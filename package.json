@@ -19,6 +19,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@prisma/client": "5.9.1",
     "axios": "^1.6.7",
+    "clsx": "^2.1.0",
     "next": "14.0.3",
     "next-connect": "^1.0.0-next.4",
     "react": "^18",

@@ -110,25 +110,22 @@ const ColumnsList = () => {
 
   if (board) {
     return (
-      <>
-        <DndContext
-          sensors={sensors}
-          collisionDetection={pointerWithin}
-          onDragStart={handleDragStart}
-          onDragOver={handleDragOver}
-          onDragEnd={handleDragEnd}
-        >
-          <section
-            className="flex flex-col gap-5         overflow-x-auto
-        overflow-y-hidden"
-          >
-            <div className="flex flex-col items-center justify-center">
-              {error && <h1>{error}</h1>}
-              <h1 className="mb-2 text-3xl">Name: {board.name}</h1>
-              <h1 className="mb-2 text-2xl">ID: {board.id}</h1>
-            </div>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={pointerWithin}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+        onDragEnd={handleDragEnd}
+      >
+        <section className="flex flex-col items-center gap-5 ">
+          <div className="flex flex-col items-center justify-center">
+            {error && <h1>{error}</h1>}
+            <h1 className="mb-2 text-3xl">Name: {board.name}</h1>
+            <h1 className="mb-2 text-2xl">ID: {board.id}</h1>
+          </div>
 
-            <div className="flex justify-center gap-5">
+          <div className="flex w-full">
+            <div className="flex min-w-full gap-5 overflow-x-auto">
               <SortableContext items={initialColumns}>
                 {initialColumns.map(({ title, id }, index) => (
                   <Column
@@ -141,7 +138,7 @@ const ColumnsList = () => {
                 ))}
               </SortableContext>
             </div>
-          </section>
+          </div>
 
           <DragOverlay>
             {activeTask && (
@@ -155,8 +152,8 @@ const ColumnsList = () => {
               />
             )}
           </DragOverlay>
-        </DndContext>
-      </>
+        </section>
+      </DndContext>
     )
   }
 }

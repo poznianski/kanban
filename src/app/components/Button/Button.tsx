@@ -1,18 +1,23 @@
+import clsx from 'clsx/lite'
 import Image from 'next/image'
 
 interface IButton {
   onClick?: () => void
   isAdd?: boolean
   label: string
+  sm?: boolean
 }
 
-const Button = ({ onClick, isAdd, label }: IButton) => {
+const Button = ({ onClick, isAdd, label, sm }: IButton) => {
   return (
     <button
       type="button"
-      className="inline-flex h-[50px] w-[200px] items-center justify-center gap-2
-       rounded bg-theme-main text-bg-secondary transition-all ease-in-out
-       hover:bg-theme-secondary hover:text-text-main"
+      className={clsx(
+        'inline-flex  items-center justify-center gap-2 rounded bg-theme-main text-bg-secondary transition-all ease-in-out hover:bg-theme-secondary hover:text-text-main',
+        sm
+          ? 'h-[35px] w-[100px] border-2 border-text-main'
+          : 'h-[50px] w-[200px]',
+      )}
       onClick={onClick}
     >
       {isAdd && (
