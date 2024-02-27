@@ -117,15 +117,15 @@ const ColumnsList = () => {
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
       >
-        <section className="flex flex-col items-center gap-5 ">
-          <div className="flex flex-col items-center justify-center">
+        <section className="flex flex-col gap-5 ">
+          <div className="flex flex-col">
             {error && <h1>{error}</h1>}
-            <h1 className="mb-2 text-3xl">Name: {board.name}</h1>
-            <h1 className="mb-2 text-2xl">ID: {board.id}</h1>
+            <h1 className="mb-2 text-center text-3xl">Name: {board.name}</h1>
+            <h1 className="mb-2 text-center text-2xl">ID: {board.id}</h1>
           </div>
 
-          <div className="flex w-full">
-            <div className="flex min-w-full gap-5 overflow-x-auto">
+          <div className="flex justify-center">
+            <div className="flex gap-5 overflow-x-auto">
               <SortableContext items={initialColumns}>
                 {initialColumns.map(({ title, id }, index) => (
                   <Column

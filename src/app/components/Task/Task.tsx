@@ -72,7 +72,7 @@ const Task = ({
   if (isDragging) {
     return (
       <div
-        className="mb-4 min-h-[140px]  rounded-2xl border-2 border-text-main
+        className="mb-4 min-h-[140px] w-full rounded-2xl border-2 border-text-main
       bg-theme-main p-4 opacity-50"
         style={style}
         ref={setNodeRef}
@@ -86,7 +86,7 @@ const Task = ({
     <div
       style={style}
       ref={setNodeRef}
-      className="mb-4 h-[140px] w-full rounded-2xl border-2
+      className="relative mb-4 h-[140px] w-full rounded-2xl border-2
       border-transparent bg-theme-main p-4 hover:border-text-main"
       onMouseOver={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
