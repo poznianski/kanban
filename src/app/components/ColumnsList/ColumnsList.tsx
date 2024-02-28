@@ -1,8 +1,9 @@
 import Column from '@/app/components/Column/Column'
 import Task from '@/app/components/Task/Task'
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
-import { initialTasks } from '@/app/context/BoardContext/initialValue'
+import { taskService } from '@/app/services/taskService'
 import { ITask } from '@/types'
+import { UNEXPECTED_ERROR } from '@/utils/constants'
 import {
   DndContext,
   DragOverEvent,
@@ -14,21 +15,24 @@ import {
   useSensors,
 } from '@dnd-kit/core'
 import { SortableContext, arrayMove } from '@dnd-kit/sortable'
-import { useContext, useState } from 'react'
+import axios from 'axios'
+import { useContext, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
-const initialColumns = [
+const columns = [
   { id: 'ToDo', title: 'ToDo' },
   { id: 'In Progress', title: 'In Progress' },
   { id: 'Done', title: 'Done' },
 ]
 
 const ColumnsList = () => {
-  const { board, error } = useContext(BoardContext)
-  const [tasks, setTasks] = useState<ITask[]>(initialTasks)
-
+  const { board, error, setError } = useContext(BoardContext)
+  const [tasks, setTasks] = useState<ITask[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
-  const activeTask = tasks.find((task) => task.id === activeId)
+
+  useEffect(() => {
+    setTasks(board?.tasks || [])
+  }, [board?.tasks])
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -38,29 +42,60 @@ const ColumnsList = () => {
     }),
   )
 
+  if (!tasks) {
+    return <div>Loading</div>
+  }
+
+  const activeTask = tasks.find((task) => task.id === activeId)
+
   if (error) {
     return <h1 className="text-center text-3xl">{error}</h1>
   }
 
-  const addTask = () => {
-    if (board) {
-      const newTask: ITask = {
-        id: uuidv4(),
-        title: 'New Task',
-        status: 'ToDo',
-        boardId: board.id,
-        description: 'description',
-      }
+  const addTask = async () => {
+    if (!board) return
 
-      setTasks([...tasks, newTask])
+    const newTask: ITask = {
+      id: uuidv4(),
+      title: `New Task ${tasks.length + 1}`,
+      status: 'ToDo',
+      boardId: board.id,
+      description: 'description',
     }
 
-    //TODO: add backend
+    setTasks((prev) => [...prev, newTask])
+
+    try {
+      const createdTask = await taskService.addTask(board.id, newTask)
+
+      setTasks((prev) => {
+        return prev.map((task) => (task.id === newTask.id ? createdTask : task))
+      })
+    } catch (error: unknown) {
+      setTasks((prev) => prev.filter((task) => task.id !== newTask.id))
+      if (axios.isAxiosError(error)) {
+        setError(error.message)
+      } else {
+        setError(UNEXPECTED_ERROR)
+      }
+    }
   }
 
-  const deleteTask = (taskId: string) => {
+  const deleteTask = async (taskId: string) => {
+    if (!board) return
+
     const newTasks = tasks.filter((task) => task.id !== taskId)
     setTasks(newTasks)
+
+    try {
+      await taskService.deleteTask(board.id, taskId)
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        setError(error.message)
+      } else {
+        setError(UNEXPECTED_ERROR)
+      }
+    }
   }
 
   const handleDragEnd = () => {
@@ -126,12 +161,12 @@ const ColumnsList = () => {
 
           <div className="flex justify-center">
             <div className="flex gap-5 overflow-x-auto">
-              <SortableContext items={initialColumns}>
-                {initialColumns.map(({ title, id }, index) => (
+              <SortableContext items={columns}>
+                {columns.map(({ title, id }) => (
                   <Column
-                    key={index}
+                    key={id}
                     title={title}
-                    tasks={tasks.filter((task) => task.status === id)}
+                    tasks={tasks.filter((task) => task?.status === id)}
                     addTask={addTask}
                     deleteTask={deleteTask}
                   />
@@ -147,6 +182,7 @@ const ColumnsList = () => {
                 title={activeTask.title}
                 boardId={activeTask.boardId}
                 id={activeTask.id}
+                status={activeTask.status}
                 description={activeTask.description}
                 deleteTask={deleteTask}
               />

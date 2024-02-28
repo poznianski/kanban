@@ -24,12 +24,12 @@ const Column = ({ title, tasks, addTask, deleteTask }: IColumn) => {
 
   return (
     <div
-      className="flex w-[300px] min-w-[300px]  flex-col border-2 border-transparent bg-bg-secondary p-4"
+      className="column flex h-[500px] max-h-[500px] w-[300px] min-w-[300px] flex-col border-2 border-transparent bg-bg-secondary"
       ref={setNodeRef}
     >
-      <h1 className="mb-4 text-center text-xl font-bold">{title}</h1>
+      <h1 className="mb-4 mt-4 text-center text-xl font-bold">{title}</h1>
 
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center overflow-y-auto p-4">
         <SortableContext items={tasksIds}>
           {tasks.map(({ id, title, boardId, description, status }) => (
             <Task
@@ -46,7 +46,10 @@ const Column = ({ title, tasks, addTask, deleteTask }: IColumn) => {
       </div>
 
       {title === 'ToDo' && (
-        <div onClick={addTask}>
+        <div
+          onClick={addTask}
+          className="m-4"
+        >
           <Button
             isAdd
             label="Add"

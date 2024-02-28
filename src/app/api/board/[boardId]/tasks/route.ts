@@ -1,7 +1,6 @@
 import { createTask, getTasksByBoardId } from '@/app/api/task/service'
 import { createEdgeRouter } from 'next-connect'
 import { NextRequest, NextResponse } from 'next/server'
-import { v4 as uuidv4 } from 'uuid'
 
 interface RequestContext {
   params: {
@@ -23,14 +22,14 @@ router
   })
   .post(async (req, { params: { boardId } }) => {
     try {
-      const { title, description, status } = await req.json()
+      const { id, title, description, status } = await req.json()
 
       const newTask = await createTask({
-        id: uuidv4(),
+        id,
         boardId,
+        status,
         title,
         description,
-        status,
       })
 
       return NextResponse.json(newTask, { status: 201 })

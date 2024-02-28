@@ -86,8 +86,8 @@ const Task = ({
     <div
       style={style}
       ref={setNodeRef}
-      className="relative mb-4 h-[140px] w-full rounded-2xl border-2
-      border-transparent bg-theme-main p-4 hover:border-text-main"
+      className="relative mb-4 h-[140px] min-h-[140px] w-full rounded-2xl
+      border-2 border-transparent bg-theme-main p-4 hover:border-text-main"
       onMouseOver={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
@@ -101,7 +101,6 @@ const Task = ({
             <div
               {...listeners}
               {...attributes}
-              style={{ cursor: 'grab' }}
             >
               <DnDIcon />
             </div>

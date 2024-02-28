@@ -1,12 +1,9 @@
+import React from 'react'
+
 export interface IBoard {
   id: string
   name: string
   tasks?: ITask[]
-}
-
-export interface IColumn {
-  id: string
-  title: string
 }
 
 export interface ITask {
@@ -14,7 +11,7 @@ export interface ITask {
   boardId: string
   title: string
   description: string
-  status?: string
+  status: string
   position?: number
 }
 
@@ -24,6 +21,7 @@ export interface ITaskProps extends ITask {
 
 export interface IBoardContext {
   board: IBoard | null
-  error: string
+  error: string | null
+  setError: React.Dispatch<React.SetStateAction<string | null>>
   fetchBoardById: (boardId: string) => Promise<void>
 }

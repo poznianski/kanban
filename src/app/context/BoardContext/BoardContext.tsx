@@ -10,7 +10,7 @@ export const BoardContext = React.createContext<IBoardContext>(initialState)
 
 export const BoardProvider = ({ children }: { children: ReactNode }) => {
   const [board, setBoard] = useState<IBoard | null>(null)
-  const [error, setError] = useState('')
+  const [error, setError] = useState<string | null>(null)
 
   const fetchBoardById = async (boardId: string) => {
     try {
@@ -21,7 +21,7 @@ export const BoardProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-        setError(error.response?.data.error)
+        setError(error.message)
       } else {
         setError(UNEXPECTED_ERROR)
       }
@@ -60,6 +60,7 @@ export const BoardProvider = ({ children }: { children: ReactNode }) => {
     fetchBoardById,
     board,
     error,
+    setError,
   }
 
   return <BoardContext.Provider value={value}>{children}</BoardContext.Provider>

@@ -7,7 +7,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar:horizontal {
@@ -16,6 +16,11 @@ body {
 
 ::-webkit-scrollbar-thumb {
   @apply bg-theme-secondary rounded hover:bg-theme-main;
+}
+
+.column > ::-webkit-scrollbar-thumb {
+  width: 10px;
+  @apply rounded-xl bg-text-main;
 }
 
 .icon {
