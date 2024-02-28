@@ -17,6 +17,7 @@ import {
 import { SortableContext, arrayMove } from '@dnd-kit/sortable'
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { v4 as uuidv4 } from 'uuid'
 
 const columns = [
@@ -26,7 +27,7 @@ const columns = [
 ]
 
 const ColumnsList = () => {
-  const { board, error, setError } = useContext(BoardContext)
+  const { board, errorMessage, setErrorMessage } = useContext(BoardContext)
   const [tasks, setTasks] = useState<ITask[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
 
@@ -48,8 +49,12 @@ const ColumnsList = () => {
 
   const activeTask = tasks.find((task) => task.id === activeId)
 
-  if (error) {
-    return <h1 className="text-center text-3xl">{error}</h1>
+  if (!board) {
+    return (
+      <h1 className="text-center text-3xl">
+        No data to display. Paste the ID and press the button
+      </h1>
+    )
   }
 
   const addTask = async () => {
@@ -71,18 +76,22 @@ const ColumnsList = () => {
       setTasks((prev) => {
         return prev.map((task) => (task.id === newTask.id ? createdTask : task))
       })
+      toast.success('Task successfully created')
     } catch (error: unknown) {
       setTasks((prev) => prev.filter((task) => task.id !== newTask.id))
       if (axios.isAxiosError(error)) {
-        setError(error.message)
+        setErrorMessage(error.message)
       } else {
-        setError(UNEXPECTED_ERROR)
+        setErrorMessage(UNEXPECTED_ERROR)
       }
+      toast.error(errorMessage)
     }
   }
 
   const deleteTask = async (taskId: string) => {
     if (!board) return
+
+    const previousTasks = tasks
 
     const newTasks = tasks.filter((task) => task.id !== taskId)
     setTasks(newTasks)
@@ -90,11 +99,13 @@ const ColumnsList = () => {
     try {
       await taskService.deleteTask(board.id, taskId)
     } catch (error: unknown) {
+      setTasks(previousTasks)
       if (axios.isAxiosError(error)) {
-        setError(error.message)
+        setErrorMessage(error.message)
       } else {
-        setError(UNEXPECTED_ERROR)
+        setErrorMessage(UNEXPECTED_ERROR)
       }
+      toast(errorMessage)
     }
   }
 
@@ -154,7 +165,6 @@ const ColumnsList = () => {
       >
         <section className="flex flex-col gap-5 ">
           <div className="flex flex-col">
-            {error && <h1>{error}</h1>}
             <h1 className="mb-2 text-center text-3xl">Name: {board.name}</h1>
             <h1 className="mb-2 text-center text-2xl">ID: {board.id}</h1>
           </div>

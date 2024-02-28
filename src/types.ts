@@ -21,7 +21,7 @@ export interface ITaskProps extends ITask {
 
 export interface IBoardContext {
   board: IBoard | null
-  error: string | null
-  setError: React.Dispatch<React.SetStateAction<string | null>>
+  errorMessage: string | null
+  setErrorMessage: React.Dispatch<React.SetStateAction<string | null>>
   fetchBoardById: (boardId: string) => Promise<void>
 }
