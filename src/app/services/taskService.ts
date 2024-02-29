@@ -18,12 +18,14 @@ const updateTask = async ({
   status,
   position,
 }: ITask) => {
-  await httpClient.put(`/task/${id}`, {
+  const { data } = await httpClient.put(`/task/${id}`, {
     title,
     description,
     status,
     position,
   })
+
+  return data
 }
 
 export const taskService = { addTask, deleteTask, updateTask }

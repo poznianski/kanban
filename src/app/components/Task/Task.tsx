@@ -153,7 +153,12 @@ const Task = ({
             px-2 text-xl font-bold outline-none"
           />
 
-          <p className={clsx('warning-message', warning && 'warning-visible')}>
+          <p
+            className={clsx(
+              'warning-message m-0',
+              warning && 'warning-visible',
+            )}
+          >
             {warning && `No more than ${maxTitleLength} characters`}
           </p>
 

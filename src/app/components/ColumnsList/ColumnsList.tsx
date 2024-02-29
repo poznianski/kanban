@@ -104,13 +104,13 @@ const ColumnsList = () => {
   }: ITask) => {
     const prevTasks = [...tasks]
 
-    const newTasks = tasks?.map((task) => {
-      if (task.id !== id) return task
-
-      return { ...task, title, description, status, position }
-    })
-
-    setTasks(newTasks)
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id
+          ? { ...task, title, description, status, position }
+          : task,
+      ),
+    )
 
     try {
       const updatedTask = await taskService.updateTask({
@@ -121,7 +121,12 @@ const ColumnsList = () => {
         position,
         boardId: board.id,
       })
-      console.log('updatedTask', updatedTask)
+      setTasks((prev) => {
+        return prev.map((task) =>
+          task.id === updatedTask.id ? updatedTask : task,
+        )
+      })
+
       toast.success(TASK_UPDATE)
     } catch (error: any) {
       setTasks(prevTasks)
