@@ -1,27 +1,34 @@
 'use client'
 
 import Button from '@/app/components/Button/Button'
-import DeleteIcon from '@/app/components/icons/DeleteIcon/DeleteIcon'
-import DnDIcon from '@/app/components/icons/DnDIcon'
-import EditIcon from '@/app/components/icons/EditIcon/EditIcon'
+import { BoardContext } from '@/app/context/BoardContext/BoardContext'
+import DeleteIcon from '@/app/icons/DeleteIcon/DeleteIcon'
+import DnDIcon from '@/app/icons/DnDIcon'
+import EditIcon from '@/app/icons/EditIcon/EditIcon'
 import { ITaskProps } from '@/types'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import React, { useEffect, useRef, useState } from 'react'
+import clsx from 'clsx/lite'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 const Task = ({
   id,
   title: initialTitle,
   description: initialDescription,
+  position,
   status,
   deleteTask,
+  updateTask,
 }: ITaskProps) => {
+  const { board } = useContext(BoardContext)
   const [editMode, setEditMode] = useState(false)
   const [title, setTitle] = useState(initialTitle)
   const [description, setDescription] = useState(initialDescription)
   const [showActions, setShowActions] = useState(false)
+  const [warning, setWarning] = useState(false)
   const prevTitle = useRef(title)
   const prevDescription = useRef(description)
+  const maxTitleLength = 15
 
   const {
     attributes,
@@ -56,12 +63,37 @@ const Task = ({
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      exitEditMode()
+      onSave()
     } else if (e.key === 'Escape') {
       setTitle(prevTitle.current)
       setDescription(prevDescription.current)
       setEditMode(false)
     }
+  }
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target
+
+    if (value.length <= maxTitleLength) {
+      setTitle(value)
+      setWarning(false)
+    } else {
+      setWarning(true)
+    }
+  }
+
+  const onSave = () => {
+    if (!board) return
+
+    updateTask({
+      id,
+      title,
+      description,
+      status,
+      position,
+      boardId: board.id,
+    })
+    exitEditMode()
   }
 
   const style = {
@@ -114,16 +146,20 @@ const Task = ({
         <div className="flex flex-col">
           <input
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={handleChange}
             autoFocus
-            onKeyDown={(e) => handleInputKeyDown(e)}
+            onKeyDown={handleInputKeyDown}
             className="mb-2 rounded border border-text-main bg-theme-main
             px-2 text-xl font-bold outline-none"
           />
 
+          <p className={clsx('warning-message', warning && 'warning-visible')}>
+            {warning && `No more than ${maxTitleLength} characters`}
+          </p>
+
           <input
             onChange={(e) => setDescription(e.target.value)}
-            onKeyDown={(e) => handleInputKeyDown(e)}
+            onKeyDown={handleInputKeyDown}
             value={description}
             className="mb-2 rounded border border-text-main bg-theme-main px-2
              outline-none"
@@ -135,7 +171,7 @@ const Task = ({
         <div className="flex justify-end gap-4">
           {editMode ? (
             <div className="flex justify-center gap-2">
-              <div onClick={() => setEditMode(false)}>
+              <div onClick={onSave}>
                 <Button
                   sm
                   label="Save"

@@ -17,6 +17,7 @@ export interface ITask {
 
 export interface ITaskProps extends ITask {
   deleteTask: (taskId: string) => void
+  updateTask: (task: ITask) => void
 }
 
 export interface IBoardContext {

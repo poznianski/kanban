@@ -27,34 +27,6 @@ export const BoardProvider = ({ children }: { children: ReactNode }) => {
       }
     }
   }
-  // const updateTaskTitle = () => {}
-
-  // const updateTaskClient = async ({
-  //   id,
-  //   title,
-  //   description,
-  //   status,
-  //   position,
-  // }: ITask) => {
-  //   try {
-  //     const newTasks = tasks?.map((task) => {
-  //       if (task.id !== id) return task
-  //
-  //       return { ...task, title, description }
-  //     })
-  //
-  //     setTasks(newTasks)
-  //
-  //     // await axios.put(`/api/task/${id}`, {
-  //     //   title,
-  //     //   description,
-  //     //   status,
-  //     //   position,
-  //     // })
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
 
   const value = {
     fetchBoardById,

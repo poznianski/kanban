@@ -35,3 +35,16 @@ body {
   }
 }
 
+.warning-message {
+  transition: opacity 0.3s, transform 0.3s;
+  opacity: 0;
+  transform: translateY(-10px);
+
+  @apply text-bg-secondary
+}
+
+.warning-visible {
+  opacity: 1;
+  transform: translateY(0px);
+}
+

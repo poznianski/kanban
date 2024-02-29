@@ -7,7 +7,8 @@
     "project": "./tsconfig.json"
   },
   "rules": {
-    "import/no-unresolved": "error"
+    "import/no-unresolved": "error",
+    "@typescript-eslint/no-explicit-any": "off"
   },
   "settings": {
     "import/resolver": {

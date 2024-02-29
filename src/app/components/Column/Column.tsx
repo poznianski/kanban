@@ -10,9 +10,10 @@ interface IColumn {
   tasks: ITask[]
   addTask: () => void
   deleteTask: (taskId: string) => void
+  updateTask: (task: ITask) => void
 }
 
-const Column = ({ title, tasks, addTask, deleteTask }: IColumn) => {
+const Column = ({ title, tasks, addTask, deleteTask, updateTask }: IColumn) => {
   const tasksIds = useMemo(() => tasks.map((task) => task.id), [tasks])
 
   const { setNodeRef } = useDroppable({
@@ -24,7 +25,8 @@ const Column = ({ title, tasks, addTask, deleteTask }: IColumn) => {
 
   return (
     <div
-      className="column flex h-[500px] max-h-[500px] w-[300px] min-w-[300px] flex-col border-2 border-transparent bg-bg-secondary"
+      className="column flex h-[500px] max-h-[500px] w-[300px] min-w-[300px]
+      flex-col border-2 border-transparent bg-bg-secondary"
       ref={setNodeRef}
     >
       <h1 className="mb-4 mt-4 text-center text-xl font-bold">{title}</h1>
@@ -40,6 +42,7 @@ const Column = ({ title, tasks, addTask, deleteTask }: IColumn) => {
               description={description}
               status={status}
               deleteTask={deleteTask}
+              updateTask={updateTask}
             />
           ))}
         </SortableContext>

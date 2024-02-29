@@ -7,8 +7,23 @@ const addTask = async (boardId: string, task: ITask) => {
   return data
 }
 
-const deleteTask = async (boardId: string, taskId: string) => {
-  await httpClient.delete(`/board/${boardId}/tasks/${taskId}`)
+const deleteTask = async (taskId: string) => {
+  await httpClient.delete(`/task/${taskId}`)
 }
 
-export const taskService = { addTask, deleteTask }
+const updateTask = async ({
+  id,
+  title,
+  description,
+  status,
+  position,
+}: ITask) => {
+  await httpClient.put(`/task/${id}`, {
+    title,
+    description,
+    status,
+    position,
+  })
+}
+
+export const taskService = { addTask, deleteTask, updateTask }

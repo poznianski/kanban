@@ -3,7 +3,7 @@ import Task from '@/app/components/Task/Task'
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 import { taskService } from '@/app/services/taskService'
 import { ITask } from '@/types'
-import { UNEXPECTED_ERROR } from '@/utils/constants'
+import { TASK_CREATED, TASK_DELETED, TASK_UPDATE } from '@/utils/constants'
 import {
   DndContext,
   DragOverEvent,
@@ -15,7 +15,6 @@ import {
   useSensors,
 } from '@dnd-kit/core'
 import { SortableContext, arrayMove } from '@dnd-kit/sortable'
-import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { v4 as uuidv4 } from 'uuid'
@@ -30,6 +29,7 @@ const ColumnsList = () => {
   const { board, errorMessage, setErrorMessage } = useContext(BoardContext)
   const [tasks, setTasks] = useState<ITask[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
+  const activeTask = tasks.find((task) => task.id === activeId)
 
   useEffect(() => {
     setTasks(board?.tasks || [])
@@ -42,12 +42,6 @@ const ColumnsList = () => {
       },
     }),
   )
-
-  if (!tasks) {
-    return <div>Loading</div>
-  }
-
-  const activeTask = tasks.find((task) => task.id === activeId)
 
   if (!board) {
     return (
@@ -76,14 +70,10 @@ const ColumnsList = () => {
       setTasks((prev) => {
         return prev.map((task) => (task.id === newTask.id ? createdTask : task))
       })
-      toast.success('Task successfully created')
-    } catch (error: unknown) {
+      toast.success(TASK_CREATED)
+    } catch (error: any) {
       setTasks((prev) => prev.filter((task) => task.id !== newTask.id))
-      if (axios.isAxiosError(error)) {
-        setErrorMessage(error.message)
-      } else {
-        setErrorMessage(UNEXPECTED_ERROR)
-      }
+      setErrorMessage(error.message)
       toast.error(errorMessage)
     }
   }
@@ -91,21 +81,52 @@ const ColumnsList = () => {
   const deleteTask = async (taskId: string) => {
     if (!board) return
 
-    const previousTasks = tasks
+    const previousTasks = [...tasks]
 
     const newTasks = tasks.filter((task) => task.id !== taskId)
     setTasks(newTasks)
 
     try {
-      await taskService.deleteTask(board.id, taskId)
-    } catch (error: unknown) {
+      await taskService.deleteTask(taskId)
+      toast.success(TASK_DELETED)
+    } catch (error: any) {
       setTasks(previousTasks)
-      if (axios.isAxiosError(error)) {
-        setErrorMessage(error.message)
-      } else {
-        setErrorMessage(UNEXPECTED_ERROR)
-      }
-      toast(errorMessage)
+      setErrorMessage(error.message)
+      toast.error(errorMessage)
+    }
+  }
+  const updateTask = async ({
+    id,
+    title,
+    description,
+    status,
+    position,
+  }: ITask) => {
+    const prevTasks = [...tasks]
+
+    const newTasks = tasks?.map((task) => {
+      if (task.id !== id) return task
+
+      return { ...task, title, description, status, position }
+    })
+
+    setTasks(newTasks)
+
+    try {
+      const updatedTask = await taskService.updateTask({
+        id,
+        title,
+        description,
+        status,
+        position,
+        boardId: board.id,
+      })
+      console.log('updatedTask', updatedTask)
+      toast.success(TASK_UPDATE)
+    } catch (error: any) {
+      setTasks(prevTasks)
+      setErrorMessage(error.message)
+      toast.error(errorMessage)
     }
   }
 
@@ -125,7 +146,6 @@ const ColumnsList = () => {
 
     const isOverATask = over.data.current?.type === 'Task'
 
-    // dropping a Task over another Task
     if (isOverATask) {
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((task) => task.id === active.id)
@@ -140,7 +160,6 @@ const ColumnsList = () => {
       })
     }
 
-    // dropping a Task over a Column
     const isOverAColumn = over.data.current?.type === 'Column'
 
     if (isOverAColumn) {
@@ -179,6 +198,7 @@ const ColumnsList = () => {
                     tasks={tasks.filter((task) => task?.status === id)}
                     addTask={addTask}
                     deleteTask={deleteTask}
+                    updateTask={updateTask}
                   />
                 ))}
               </SortableContext>
@@ -195,6 +215,7 @@ const ColumnsList = () => {
                 status={activeTask.status}
                 description={activeTask.description}
                 deleteTask={deleteTask}
+                updateTask={updateTask}
               />
             )}
           </DragOverlay>
