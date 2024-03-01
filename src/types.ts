@@ -12,7 +12,7 @@ export interface ITask {
   title: string
   description: string
   status: string
-  position?: number
+  position: number
 }
 
 export interface ITaskProps extends ITask {

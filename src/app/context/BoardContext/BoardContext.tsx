@@ -1,10 +1,10 @@
 'use client'
 
 import { initialState } from '@/app/context/BoardContext/initialValue'
+import { boardService } from '@/app/services/boardService'
 import { IBoard, IBoardContext } from '@/types'
-import { UNEXPECTED_ERROR } from '@/utils/constants'
-import axios from 'axios'
 import React, { ReactNode, useState } from 'react'
+import { toast } from 'react-toastify'
 
 export const BoardContext = React.createContext<IBoardContext>(initialState)
 
@@ -14,17 +14,12 @@ export const BoardProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchBoardById = async (boardId: string) => {
     try {
-      if (boardId) {
-        const { data } = await axios.get(`/api/board/${boardId}`)
-        setBoard(data)
-        setErrorMessage('')
-      }
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        setErrorMessage(error.message)
-      } else {
-        setErrorMessage(UNEXPECTED_ERROR)
-      }
+      const { data } = await boardService.getBoardById(boardId)
+      setBoard(data)
+      setErrorMessage('')
+    } catch (error: any) {
+      setErrorMessage(error.response.data)
+      toast.error(errorMessage)
     }
   }
 

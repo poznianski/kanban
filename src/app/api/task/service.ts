@@ -55,6 +55,17 @@ export const updateTask = ({
     },
   })
 
+export const updateTasksPositions = async (tasks: ITask[]) => {
+  return await Promise.all(
+    tasks.map((task) => {
+      return prisma.task.update({
+        where: { id: task.id },
+        data: { position: task.position },
+      })
+    }),
+  )
+}
+
 export const deleteTask = (id: string) =>
   prisma.task.delete({
     where: { id },

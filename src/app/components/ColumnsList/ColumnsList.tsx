@@ -3,7 +3,12 @@ import Task from '@/app/components/Task/Task'
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 import { taskService } from '@/app/services/taskService'
 import { ITask } from '@/types'
-import { TASK_CREATED, TASK_DELETED, TASK_UPDATE } from '@/utils/constants'
+import {
+  TASK_CREATED,
+  TASK_DELETED,
+  TASK_POSITIONS_UPDATE,
+  TASK_UPDATE,
+} from '@/utils/constants'
 import {
   DndContext,
   DragOverEvent,
@@ -29,6 +34,7 @@ const ColumnsList = () => {
   const { board, errorMessage, setErrorMessage } = useContext(BoardContext)
   const [tasks, setTasks] = useState<ITask[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
+  const [tasksToRevert, setTasksToRevert] = useState<ITask[]>([])
   const activeTask = tasks.find((task) => task.id === activeId)
 
   useEffect(() => {
@@ -50,6 +56,7 @@ const ColumnsList = () => {
       </h1>
     )
   }
+  console.log('tasks', tasks)
 
   const addTask = async () => {
     if (!board) return
@@ -60,6 +67,10 @@ const ColumnsList = () => {
       status: 'ToDo',
       boardId: board.id,
       description: 'description',
+      position:
+        tasks.length === 0
+          ? 0
+          : Math.max(...tasks.map((task) => task.position)),
     }
 
     setTasks((prev) => [...prev, newTask])
@@ -135,13 +146,31 @@ const ColumnsList = () => {
     }
   }
 
-  const handleDragEnd = () => {
+  const handleDragEnd = async () => {
     setActiveId(null)
+
+    const newTasksPositions = tasks.map((task, index) => ({
+      ...task,
+      position: index,
+    }))
+
+    try {
+      const updatedTasks =
+        await taskService.updateTasksPositions(newTasksPositions)
+      setTasks(updatedTasks)
+      toast.success(TASK_POSITIONS_UPDATE)
+    } catch (error: any) {
+      setTasks(tasksToRevert)
+      setErrorMessage(error.message || 'position update failed')
+      toast.error(errorMessage)
+    }
   }
 
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event
     setActiveId(active.id as string)
+
+    setTasksToRevert(tasks)
   }
 
   const handleDragOver = (event: DragOverEvent) => {
@@ -192,7 +221,6 @@ const ColumnsList = () => {
             <h1 className="mb-2 text-center text-3xl">Name: {board.name}</h1>
             <h1 className="mb-2 text-center text-2xl">ID: {board.id}</h1>
           </div>
-
           <div className="flex justify-center">
             <div className="flex gap-5 overflow-x-auto">
               <SortableContext items={columns}>
@@ -209,7 +237,6 @@ const ColumnsList = () => {
               </SortableContext>
             </div>
           </div>
-
           <DragOverlay>
             {activeTask && (
               <Task
@@ -221,6 +248,7 @@ const ColumnsList = () => {
                 description={activeTask.description}
                 deleteTask={deleteTask}
                 updateTask={updateTask}
+                position={activeTask.position}
               />
             )}
           </DragOverlay>

@@ -61,8 +61,12 @@ const Task = ({
     }
   }, [editMode, title, description])
 
-  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+  const handleInputKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const isTextArea = e.target instanceof HTMLTextAreaElement
+
+    if (e.key === 'Enter' && !isTextArea) {
       onSave()
     } else if (e.key === 'Escape') {
       setTitle(prevTitle.current)
@@ -118,7 +122,7 @@ const Task = ({
     <div
       style={style}
       ref={setNodeRef}
-      className="relative mb-4 h-[140px] min-h-[140px] w-full rounded-2xl
+      className="relative mb-4 h-[140px] min-h-[140px] w-full overflow-y-auto rounded-2xl
       border-2 border-transparent bg-theme-main p-4 hover:border-text-main"
       onMouseOver={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
@@ -138,7 +142,7 @@ const Task = ({
             </div>
           </div>
 
-          <p className="mb-2">{description}</p>
+          <p className="mb-2 break-words">{description}</p>
         </>
       )}
 
@@ -162,7 +166,7 @@ const Task = ({
             {warning && `No more than ${maxTitleLength} characters`}
           </p>
 
-          <input
+          <textarea
             onChange={(e) => setDescription(e.target.value)}
             onKeyDown={handleInputKeyDown}
             value={description}

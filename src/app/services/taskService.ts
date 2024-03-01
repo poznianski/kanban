@@ -28,4 +28,15 @@ const updateTask = async ({
   return data
 }
 
-export const taskService = { addTask, deleteTask, updateTask }
+const updateTasksPositions = async (tasks: ITask[]) => {
+  const { data } = await httpClient.post(`/task/update-positions`, tasks)
+
+  return data
+}
+
+export const taskService = {
+  addTask,
+  deleteTask,
+  updateTask,
+  updateTasksPositions,
+}

@@ -14,10 +14,7 @@ router.get(async (_req, { params: { boardId } }) => {
   const board = await getBoardById(boardId)
 
   if (!board) {
-    return NextResponse.json(
-      { error: 'There is no board with such ID' },
-      { status: 404 },
-    )
+    return NextResponse.json('There is no board with such ID', { status: 404 })
   }
 
   return NextResponse.json(board)
