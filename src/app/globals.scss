@@ -48,3 +48,9 @@ body {
   transform: translateY(0px);
 }
 
+.disabled {
+  transition: 0.3s ease all;
+  cursor: not-allowed;
+  opacity: 40%;
+}
+

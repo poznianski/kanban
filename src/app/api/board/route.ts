@@ -22,13 +22,14 @@ router
   .post(async (req) => {
     try {
       const { name } = await req.json()
+      console.log('NAME', { name })
 
       if (!name) {
         return NextResponse.json('Name is required', { status: 400 })
       }
 
-      await createBoard({ name })
-      return new NextResponse('A board successfully created', { status: 201 })
+      const newBoard = await createBoard({ name })
+      return NextResponse.json(newBoard)
     } catch (error) {
       console.error('Could not create a board', error)
       return NextResponse.json(`Error: ${error}`, { status: 500 })

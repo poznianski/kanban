@@ -1,9 +1,13 @@
+import Button from '@/app/components/Button/Button'
 import Column from '@/app/components/Column/Column'
 import Task from '@/app/components/Task/Task'
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
+import CopyIcon from '@/app/icons/CopyIcon'
+import { boardService } from '@/app/services/boardService'
 import { taskService } from '@/app/services/taskService'
 import { ITask } from '@/types'
 import {
+  COPY,
   TASK_CREATED,
   TASK_DELETED,
   TASK_POSITIONS_UPDATE,
@@ -22,6 +26,7 @@ import {
 import { SortableContext, arrayMove } from '@dnd-kit/sortable'
 import { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import { Tooltip } from 'react-tooltip'
 import { v4 as uuidv4 } from 'uuid'
 
 const columns = [
@@ -31,10 +36,12 @@ const columns = [
 ]
 
 const ColumnsList = () => {
-  const { board, errorMessage, setErrorMessage } = useContext(BoardContext)
+  const { board, setBoard, errorMessage, setErrorMessage } =
+    useContext(BoardContext)
   const [tasks, setTasks] = useState<ITask[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
   const [tasksToRevert, setTasksToRevert] = useState<ITask[]>([])
+  const [tooltipMessage, setTooltipMessage] = useState(COPY)
   const activeTask = tasks.find((task) => task.id === activeId)
 
   useEffect(() => {
@@ -49,15 +56,34 @@ const ColumnsList = () => {
     }),
   )
 
+  const createBoard = async () => {
+    try {
+      const newBoard = await boardService.createBoard('New Board')
+
+      setBoard(newBoard)
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }
+
   if (!board) {
     return (
-      <h1 className="text-center text-3xl">
-        No data to display. Paste the ID and press the button OR create a new
-        Board
-      </h1>
+      <>
+        <h1 className="mb-2 text-center text-3xl">
+          No data to display. Paste the ID and press Load <br />
+          OR
+        </h1>
+
+        <div className="flex justify-center">
+          <Button
+            label="Create a Board"
+            isAdd
+            onClick={createBoard}
+          />
+        </div>
+      </>
     )
   }
-  console.log('tasks', tasks)
 
   const addTask = async () => {
     if (!board) return
@@ -208,6 +234,10 @@ const ColumnsList = () => {
       })
     }
   }
+  const handleCopyId = () => {
+    navigator.clipboard.writeText(board.id)
+    setTooltipMessage('Copied!')
+  }
 
   if (board) {
     return (
@@ -221,7 +251,25 @@ const ColumnsList = () => {
         <section className="flex flex-col gap-5 ">
           <div className="flex flex-col">
             <h1 className="mb-2 text-center text-3xl">Name: {board.name}</h1>
-            <h1 className="mb-2 text-center text-2xl">ID: {board.id}</h1>
+            <h1 className="mb-2 text-center text-2xl">
+              ID: {board.id}
+              <span
+                data-tooltip-id="copy"
+                data-tooltip-content={tooltipMessage}
+                className="ml-2 cursor-pointer"
+              >
+                <span
+                  onClick={handleCopyId}
+                  className="inline-flex cursor-pointer text-theme-main"
+                >
+                  <CopyIcon />
+                </span>
+              </span>
+              <Tooltip
+                id="copy"
+                border="1px solid #00796B"
+              />
+            </h1>
           </div>
           <div className="flex justify-center">
             <div className="flex gap-5 overflow-x-auto">

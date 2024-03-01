@@ -2,9 +2,9 @@
 
 import Button from '@/app/components/Button/Button'
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
-import DeleteIcon from '@/app/icons/DeleteIcon/DeleteIcon'
+import DeleteIcon from '@/app/icons/DeleteIcon'
 import DnDIcon from '@/app/icons/DnDIcon'
-import EditIcon from '@/app/icons/EditIcon/EditIcon'
+import EditIcon from '@/app/icons/EditIcon'
 import { ITaskProps } from '@/types'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
