@@ -52,7 +52,8 @@ const ColumnsList = () => {
   if (!board) {
     return (
       <h1 className="text-center text-3xl">
-        No data to display. Paste the ID and press the button
+        No data to display. Paste the ID and press the button OR create a new
+        Board
       </h1>
     )
   }
@@ -151,6 +152,7 @@ const ColumnsList = () => {
 
     const newTasksPositions = tasks.map((task, index) => ({
       ...task,
+      status: task.status,
       position: index,
     }))
 

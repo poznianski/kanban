@@ -60,7 +60,10 @@ export const updateTasksPositions = async (tasks: ITask[]) => {
     tasks.map((task) => {
       return prisma.task.update({
         where: { id: task.id },
-        data: { position: task.position },
+        data: {
+          position: task.position,
+          status: task.status,
+        },
       })
     }),
   )
