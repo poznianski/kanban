@@ -22,7 +22,6 @@ router
   .post(async (req) => {
     try {
       const { name } = await req.json()
-      console.log('NAME', { name })
 
       if (!name) {
         return NextResponse.json('Name is required', { status: 400 })
@@ -43,8 +42,8 @@ router
         return NextResponse.json('Name is required', { status: 400 })
       }
 
-      await updateBoard({ id, name })
-      return NextResponse.json('A board successfully updated', { status: 200 })
+      const updatedBoard = await updateBoard({ id, name })
+      return NextResponse.json(updatedBoard)
     } catch (error) {
       console.error('Could not update a board', error)
       return NextResponse.json(`Error: ${error}`, { status: 500 })

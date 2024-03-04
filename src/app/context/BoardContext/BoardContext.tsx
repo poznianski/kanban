@@ -26,6 +26,7 @@ export const BoardProvider = ({ children }: { children: ReactNode }) => {
   const value = {
     fetchBoardById,
     board,
+    setBoard,
     errorMessage,
     setErrorMessage,
   }

@@ -5,7 +5,7 @@ import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 import CopyIcon from '@/app/icons/CopyIcon'
 import { boardService } from '@/app/services/boardService'
 import { taskService } from '@/app/services/taskService'
-import { ITask } from '@/types'
+import { IBoard, ITask } from '@/types'
 import {
   COPY,
   TASK_CREATED,
@@ -24,7 +24,7 @@ import {
   useSensors,
 } from '@dnd-kit/core'
 import { SortableContext, arrayMove } from '@dnd-kit/sortable'
-import { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { Tooltip } from 'react-tooltip'
 import { v4 as uuidv4 } from 'uuid'
@@ -42,11 +42,18 @@ const ColumnsList = () => {
   const [activeId, setActiveId] = useState<string | null>(null)
   const [tasksToRevert, setTasksToRevert] = useState<ITask[]>([])
   const [tooltipMessage, setTooltipMessage] = useState(COPY)
+  const [editMode, setEditMode] = useState(false)
+  const [boardName, setBoardName] = useState('')
   const activeTask = tasks.find((task) => task.id === activeId)
 
   useEffect(() => {
     setTasks(board?.tasks || [])
-  }, [board?.tasks])
+    setBoardName(board?.name || '')
+  }, [board?.name, board?.tasks])
+
+  useEffect(() => {
+    setBoard(board)
+  }, [board, setBoard])
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -56,9 +63,42 @@ const ColumnsList = () => {
     }),
   )
 
+  const updateBoard = async ({ id, name }: IBoard) => {
+    const previousName = board?.name
+
+    const updatedBoard: IBoard = {
+      id,
+      name,
+    }
+
+    setBoard(updatedBoard)
+
+    try {
+      const updatedBoard = await boardService.updateBoard({ id, name })
+
+      setBoard(updatedBoard)
+    } catch (error: any) {
+      setBoardName(previousName || '')
+      toast.error(error.message)
+    }
+  }
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleBoardNameUpdate()
+    }
+  }
+
+  const handleBoardNameUpdate = () => {
+    if (board) {
+      updateBoard({ id: board.id, name: boardName })
+      setEditMode(false)
+    }
+  }
+
   const createBoard = async () => {
     try {
-      const newBoard = await boardService.createBoard('New Board')
+      const newBoard = await boardService.createBoard({ name: 'New Board' })
 
       setBoard(newBoard)
     } catch (error: any) {
@@ -234,6 +274,7 @@ const ColumnsList = () => {
       })
     }
   }
+
   const handleCopyId = () => {
     navigator.clipboard.writeText(board.id)
     setTooltipMessage('Copied!')
@@ -250,9 +291,39 @@ const ColumnsList = () => {
       >
         <section className="flex flex-col gap-5 ">
           <div className="flex flex-col">
-            <h1 className="mb-2 text-center text-3xl">Name: {board.name}</h1>
-            <h1 className="mb-2 text-center text-2xl">
-              ID: {board.id}
+            <div className="flex justify-center">
+              <h1 className="mb-3 mr-2 text-center text-3xl">Name:</h1>
+
+              <div className="w-[300px]">
+                {!editMode ? (
+                  <h1
+                    onClick={() => setEditMode(true)}
+                    className="mb-2 inline text-center text-3xl"
+                  >
+                    {boardName}
+                  </h1>
+                ) : (
+                  <input
+                    autoFocus
+                    className="mb-2 border-2 border-text-main bg-bg-main text-left text-3xl outline-none"
+                    value={boardName}
+                    onBlur={() => handleBoardNameUpdate()}
+                    onChange={(e) => setBoardName(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                  />
+                )}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center">
+              <p className="mb-2 text-center text-2xl">
+                ID: {board.id}
+                <Tooltip
+                  id="copy"
+                  border="1px solid #00796B"
+                />
+              </p>
+
               <span
                 data-tooltip-id="copy"
                 data-tooltip-content={tooltipMessage}
@@ -265,11 +336,7 @@ const ColumnsList = () => {
                   <CopyIcon />
                 </span>
               </span>
-              <Tooltip
-                id="copy"
-                border="1px solid #00796B"
-              />
-            </h1>
+            </div>
           </div>
           <div className="flex justify-center">
             <div className="flex gap-5 overflow-x-auto">
