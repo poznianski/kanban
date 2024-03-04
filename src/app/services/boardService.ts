@@ -1,7 +1,7 @@
 import httpClient from '@/app/services/httpClient'
 import { IBoard } from '@/types'
 
-const getBoardById = async (id: IBoard) => {
+const getBoardById = async (id: string) => {
   return await httpClient.get(`/board/${id}`)
 }
 
