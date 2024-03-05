@@ -1,16 +1,40 @@
-import { IBoardContext } from '@/types'
+import { IBoard, IBoardContext, ITask } from '@/types'
+import { DragOverEvent, DragStartEvent } from '@dnd-kit/core'
 
 export const initialState: IBoardContext = {
   board: null,
-  error: '',
-  setError: () => {},
-  fetchBoardById: () => {
-    throw new Error('fetchBoardById placeholder')
+  setBoard: () => {},
+  errorMessage: null,
+  setErrorMessage: () => {},
+  fetchBoardById: async (_boardId: string) => {
+    throw new Error('fetchBoardById not implemented')
   },
-  // updateTaskClient: () => {
-  //   throw new Error('updateTaskClient placeholder')
-  // },
-  // updateTaskTitle: () => {
-  //   throw new Error('updateTaskTitle placeholder')
-  // },
+  createBoard: async () => {
+    throw new Error('createBoard not implemented')
+  },
+  updateBoard: async (_board: IBoard) => {
+    throw new Error('updateBoard not implemented')
+  },
+  boardName: '',
+  setBoardName: () => {},
+  tasks: [],
+  handleDragEnd: async () => {
+    throw new Error('handleDragEnd not implemented')
+  },
+  handleDragStart: (_event: DragStartEvent) => {
+    throw new Error('handleDragStart not implemented')
+  },
+  handleDragOver: (_event: DragOverEvent) => {
+    throw new Error('handleDragOver not implemented')
+  },
+  activeId: null,
+  updateTask: async (_task: ITask) => {
+    throw new Error('updateTask not implemented')
+  },
+  deleteTask: async (_taskId: string) => {
+    throw new Error('deleteTask not implemented')
+  },
+  addTask: async () => {
+    throw new Error('addTask not implemented')
+  },
 }

@@ -1,19 +1,18 @@
 import Button from '@/app/components/Button/Button'
 import Task from '@/app/components/Task/Task'
+import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 import { ITask } from '@/types'
 import { useDroppable } from '@dnd-kit/core'
 import { SortableContext } from '@dnd-kit/sortable'
-import { useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 
 interface IColumn {
   title: string
   tasks: ITask[]
-  addTask: () => void
-  deleteTask: (taskId: string) => void
-  updateTask: (task: ITask) => void
 }
 
-const Column = ({ title, tasks, addTask, deleteTask, updateTask }: IColumn) => {
+const Column = ({ title, tasks }: IColumn) => {
+  const { addTask } = useContext(BoardContext)
   const tasksIds = useMemo(() => tasks.map((task) => task.id), [tasks])
 
   const { setNodeRef } = useDroppable({
@@ -33,18 +32,19 @@ const Column = ({ title, tasks, addTask, deleteTask, updateTask }: IColumn) => {
 
       <div className="flex flex-col items-center overflow-y-auto p-4">
         <SortableContext items={tasksIds}>
-          {tasks.map(({ id, title, boardId, description, status }) => (
-            <Task
-              key={id}
-              title={title}
-              boardId={boardId}
-              id={id}
-              description={description}
-              status={status}
-              deleteTask={deleteTask}
-              updateTask={updateTask}
-            />
-          ))}
+          {tasks.map(
+            ({ id, title, boardId, description, status, position }) => (
+              <Task
+                key={id}
+                title={title}
+                boardId={boardId}
+                id={id}
+                description={description}
+                status={status}
+                position={position}
+              />
+            ),
+          )}
         </SortableContext>
       </div>
 

@@ -5,7 +5,7 @@ import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 import DeleteIcon from '@/app/icons/DeleteIcon'
 import DnDIcon from '@/app/icons/DnDIcon'
 import EditIcon from '@/app/icons/EditIcon'
-import { ITaskProps } from '@/types'
+import { ITask } from '@/types'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import clsx from 'clsx/lite'
@@ -17,10 +17,8 @@ const Task = ({
   description: initialDescription,
   position,
   status,
-  deleteTask,
-  updateTask,
-}: ITaskProps) => {
-  const { board } = useContext(BoardContext)
+}: ITask) => {
+  const { board, deleteTask, updateTask } = useContext(BoardContext)
   const [editMode, setEditMode] = useState(false)
   const [title, setTitle] = useState(initialTitle)
   const [description, setDescription] = useState(initialDescription)
