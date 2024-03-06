@@ -6,10 +6,10 @@ interface IButton {
   isAdd?: boolean
   label: string
   sm?: boolean
-  inactive?: boolean
+  disabled?: boolean
 }
 
-const Button = ({ onClick, isAdd, label, sm, inactive }: IButton) => {
+const Button = ({ onClick, isAdd, label, sm, disabled }: IButton) => {
   return (
     <button
       type="button"
@@ -18,9 +18,10 @@ const Button = ({ onClick, isAdd, label, sm, inactive }: IButton) => {
         sm
           ? 'h-[35px] w-[100px] border-2 border-text-main'
           : 'h-[50px] w-[200px]',
-        inactive && 'disabled',
+        disabled && 'disabled',
       )}
       onClick={onClick}
+      disabled={disabled}
     >
       {isAdd && (
         <Image

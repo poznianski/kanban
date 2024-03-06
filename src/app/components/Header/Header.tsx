@@ -6,7 +6,7 @@ import React, { useContext, useState } from 'react'
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState<string>('')
   const { fetchBoardById } = useContext(BoardContext)
-  const buttonInactive = searchQuery.length === 0
+  const buttonDisabled = searchQuery.length === 0
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value)
@@ -23,7 +23,7 @@ const Header = () => {
         <Button
           onClick={() => fetchBoardById(searchQuery)}
           label="Load"
-          inactive={buttonInactive}
+          disabled={buttonDisabled}
         />
       </div>
     </header>
