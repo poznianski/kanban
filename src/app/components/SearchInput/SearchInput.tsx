@@ -7,6 +7,7 @@ interface ISearchInput {
 }
 const SearchInput = ({ searchQuery, handleSearchChange }: ISearchInput) => {
   const { fetchBoardById } = useContext(BoardContext)
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       fetchBoardById(searchQuery)

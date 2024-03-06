@@ -1,27 +1,10 @@
 import Header from '@/app/components/Header/Header'
-import { BoardContext } from '@/app/context/BoardContext/BoardContext'
-import { IBoardContext } from '@/types'
+import { renderBoardContext } from '@/utils/renderBoardContext'
 import '@testing-library/jest-dom/vitest'
-import { fireEvent, render, screen } from '@testing-library/react'
-import { ReactElement } from 'react'
+import { fireEvent, screen } from '@testing-library/react'
 import { describe, expect, test, vi } from 'vitest'
 
 const mockFetchBoardById = vi.fn()
-
-interface CustomRenderOptions {
-  providerProps: Partial<IBoardContext>
-}
-
-const customRender = (
-  ui: ReactElement,
-  { providerProps }: CustomRenderOptions,
-) => {
-  return render(
-    <BoardContext.Provider value={providerProps as IBoardContext}>
-      {ui}
-    </BoardContext.Provider>,
-  )
-}
 
 describe('Header', () => {
   beforeEach(() => {
@@ -32,7 +15,7 @@ describe('Header', () => {
     const providerProps = {
       fetchBoardById: mockFetchBoardById,
     }
-    customRender(<Header />, { providerProps })
+    renderBoardContext(<Header />, { providerProps })
 
     const input = screen.getByPlaceholderText(
       'Enter a board ID here...',
@@ -44,7 +27,7 @@ describe('Header', () => {
 
   test('calls fetchBoardById with the search query when load button is clicked', () => {
     const providerProps = { fetchBoardById: mockFetchBoardById }
-    customRender(<Header />, { providerProps })
+    renderBoardContext(<Header />, { providerProps })
 
     const input = screen.getByPlaceholderText('Enter a board ID here...')
     fireEvent.change(input, { target: { value: 'new board' } })
@@ -56,7 +39,7 @@ describe('Header', () => {
 
   test('fetchBoardById should not be called when searchInput is empty and button should be disabled', () => {
     const providerProps = { fetchBoardById: mockFetchBoardById }
-    customRender(<Header />, { providerProps })
+    renderBoardContext(<Header />, { providerProps })
 
     const button = screen.getByRole('button')
     expect(button).toBeDisabled()
