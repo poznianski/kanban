@@ -37,4 +37,5 @@ export const initialState: IBoardContext = {
   addTask: async () => {
     throw new Error('addTask not implemented')
   },
+  isLoading: false,
 }

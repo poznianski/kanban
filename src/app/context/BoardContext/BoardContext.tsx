@@ -25,6 +25,7 @@ export const BoardProvider = ({ children }: { children: ReactNode }) => {
   const [tasks, setTasks] = useState<ITask[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
   const [tasksToRevert, setTasksToRevert] = useState<ITask[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     setTasks(board?.tasks || [])
@@ -190,22 +191,28 @@ export const BoardProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const fetchBoardById = async (boardId: string) => {
+    setIsLoading(true)
     try {
       const { data } = await boardService.getBoardById(boardId)
       setBoard(data)
       setErrorMessage('')
+      setIsLoading(false)
     } catch (error: any) {
+      setIsLoading(false)
       setErrorMessage(error.response.data)
       toast.error(errorMessage)
     }
   }
 
   const createBoard = async () => {
+    setIsLoading(true)
     try {
       const newBoard = await boardService.createBoard({ name: 'New Board' })
 
       setBoard(newBoard)
+      setIsLoading(false)
     } catch (error: any) {
+      setIsLoading(false)
       toast.error(error.message)
     }
   }
@@ -248,6 +255,7 @@ export const BoardProvider = ({ children }: { children: ReactNode }) => {
     updateTask,
     deleteTask,
     addTask,
+    isLoading,
   }
 
   return <BoardContext.Provider value={value}>{children}</BoardContext.Provider>

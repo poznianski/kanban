@@ -34,4 +34,5 @@ export interface IBoardContext {
   updateTask: (task: ITask) => Promise<void>
   deleteTask: (taskId: string) => Promise<void>
   addTask: () => Promise<void>
+  isLoading: boolean
 }

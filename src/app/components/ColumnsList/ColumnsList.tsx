@@ -1,5 +1,6 @@
 import BoardHeader from '@/app/components/BoardHeader/BoardHeader'
 import Column from '@/app/components/Column/Column'
+import Loader from '@/app/components/Loader/Loader'
 import Task from '@/app/components/Task/Task'
 import WelcomeText from '@/app/components/WelcomeText/WelcomeText'
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
@@ -29,6 +30,7 @@ const ColumnsList = () => {
     handleDragStart,
     handleDragOver,
     activeId,
+    isLoading,
   } = useContext(BoardContext)
 
   const activeTask = tasks.find((task) => task.id === activeId)
@@ -44,6 +46,10 @@ const ColumnsList = () => {
       },
     }),
   )
+
+  if (isLoading) {
+    return <Loader />
+  }
 
   if (!board) {
     return <WelcomeText />
