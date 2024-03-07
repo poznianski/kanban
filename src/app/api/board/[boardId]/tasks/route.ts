@@ -22,7 +22,7 @@ router
   })
   .post(async (req, { params: { boardId } }) => {
     try {
-      const { id, title, description, status } = await req.json()
+      const { id, title, description, status, position } = await req.json()
 
       const newTask = await createTask({
         id,
@@ -30,6 +30,7 @@ router
         status,
         title,
         description,
+        position,
       })
 
       return NextResponse.json(newTask, { status: 201 })
@@ -39,8 +40,16 @@ router
     }
   })
 
-export const GET = (request: NextRequest, ctx: RequestContext) =>
-  router.run(request, ctx)
+export const GET = async (
+  request: NextRequest,
+  ctx: RequestContext,
+): Promise<NextResponse | void> => {
+  return (await router.run(request, ctx)) as Promise<NextResponse | void>
+}
 
-export const POST = (request: NextRequest, ctx: RequestContext) =>
-  router.run(request, ctx)
+export const POST = async (
+  request: NextRequest,
+  ctx: RequestContext,
+): Promise<NextResponse | void> => {
+  return (await router.run(request, ctx)) as Promise<NextResponse | void>
+}

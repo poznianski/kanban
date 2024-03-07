@@ -18,6 +18,9 @@ router.post(async (req) => {
   return NextResponse.json(updatedTasks)
 })
 
-export const POST = (request: NextRequest, ctx: RequestContext) => {
-  return router.run(request, ctx)
+export const POST = async (
+  request: NextRequest,
+  ctx: RequestContext,
+): Promise<NextResponse | void> => {
+  return (await router.run(request, ctx)) as Promise<NextResponse | void>
 }

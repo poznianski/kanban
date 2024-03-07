@@ -10,7 +10,7 @@ interface RequestContext {
   }
 }
 
-router.get(async (_req, { params: { boardId } }) => {
+router.get(async (_req, { params: { boardId } }): Promise<void | Response> => {
   const board = await getBoardById(boardId)
 
   if (!board) {
@@ -20,6 +20,9 @@ router.get(async (_req, { params: { boardId } }) => {
   return NextResponse.json(board)
 })
 
-export const GET = (request: NextRequest, ctx: RequestContext) => {
-  return router.run(request, ctx)
+export const GET = async (
+  request: NextRequest,
+  ctx: any,
+): Promise<NextResponse | void> => {
+  return (await router.run(request, ctx)) as Promise<NextResponse>
 }

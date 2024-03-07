@@ -52,11 +52,20 @@ router
     }
   })
 
-export const GET = (request: NextRequest, ctx: RequestContext) =>
-  router.run(request, ctx)
+export const GET = async (
+  request: NextRequest,
+  ctx: RequestContext,
+): Promise<NextResponse | void> =>
+  (await router.run(request, ctx)) as Promise<NextResponse | void>
 
-export const PUT = (request: NextRequest, ctx: RequestContext) =>
-  router.run(request, ctx)
+export const PUT = async (
+  request: NextRequest,
+  ctx: RequestContext,
+): Promise<NextResponse | void> =>
+  (await router.run(request, ctx)) as Promise<NextResponse | void>
 
-export const DELETE = (request: NextRequest, ctx: RequestContext) =>
-  router.run(request, ctx)
+export const DELETE = async (
+  request: NextRequest,
+  ctx: RequestContext,
+): Promise<NextResponse | void> =>
+  (await router.run(request, ctx)) as Promise<NextResponse | void>

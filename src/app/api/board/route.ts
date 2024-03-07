@@ -65,18 +65,30 @@ router
     }
   })
 
-export const GET = (request: NextRequest, ctx: { params?: unknown }) => {
-  return router.run(request, ctx)
+export const GET = async (
+  request: NextRequest,
+  ctx: { params?: unknown },
+): Promise<NextResponse | void> => {
+  return (await router.run(request, ctx)) as Promise<NextResponse | void>
 }
 
-export const POST = (request: NextRequest, ctx: { params?: unknown }) => {
-  return router.run(request, ctx)
+export const POST = async (
+  request: NextRequest,
+  ctx: { params?: unknown },
+): Promise<NextResponse | void> => {
+  return (await router.run(request, ctx)) as Promise<NextResponse | void>
 }
 
-export const PUT = (request: NextRequest, ctx: { params?: unknown }) => {
-  return router.run(request, ctx)
+export const PUT = async (
+  request: NextRequest,
+  ctx: { params?: unknown },
+): Promise<NextResponse | void> => {
+  return (await router.run(request, ctx)) as Promise<NextResponse | void>
 }
 
-export const DELETE = (request: NextRequest, ctx: { params?: unknown }) => {
-  return router.run(request, ctx)
+export const DELETE = async (
+  request: NextRequest,
+  ctx: { params?: unknown },
+): Promise<NextResponse | void> => {
+  return (await router.run(request, ctx)) as Promise<NextResponse | void>
 }
