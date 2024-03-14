@@ -20,11 +20,13 @@ const Header = () => {
           handleSearchChange={handleSearchChange}
         />
 
-        <Button
-          onClick={() => fetchBoardById(searchQuery)}
-          label="Load"
-          disabled={buttonDisabled}
-        />
+        <div className="w-[200px]">
+          <Button
+            onClick={() => fetchBoardById(searchQuery)}
+            label="Load"
+            disabled={buttonDisabled}
+          />
+        </div>
       </div>
     </header>
   )

@@ -12,7 +12,7 @@ const WelcomeText = () => {
         OR
       </h1>
 
-      <div className="flex justify-center">
+      <div className="mx-auto w-[200px]">
         <Button
           label="Create a Board"
           isAdd

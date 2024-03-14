@@ -1,5 +1,6 @@
 import BoardHeader from '@/app/components/BoardHeader/BoardHeader'
 import Column from '@/app/components/Column/Column'
+import { columns } from '@/app/components/ColumnsList/columns'
 import Loader from '@/app/components/Loader/Loader'
 import Task from '@/app/components/Task/Task'
 import WelcomeText from '@/app/components/WelcomeText/WelcomeText'
@@ -14,12 +15,6 @@ import {
 } from '@dnd-kit/core'
 import { SortableContext } from '@dnd-kit/sortable'
 import React, { useContext, useEffect } from 'react'
-
-const columns = [
-  { id: 'ToDo', title: 'ToDo' },
-  { id: 'In Progress', title: 'In Progress' },
-  { id: 'Done', title: 'Done' },
-]
 
 const ColumnsList = () => {
   const {

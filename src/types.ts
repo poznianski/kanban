@@ -1,4 +1,9 @@
-import { DragOverEvent, DragStartEvent } from '@dnd-kit/core'
+import {
+  DragOverEvent,
+  DragStartEvent,
+  DraggableAttributes,
+} from '@dnd-kit/core'
+import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities'
 import React from 'react'
 
 export interface IBoard {
@@ -35,4 +40,23 @@ export interface IBoardContext {
   deleteTask: (taskId: string) => Promise<void>
   addTask: () => Promise<void>
   isLoading: boolean
+}
+
+export interface ITaskInfo {
+  title: string
+  description: string
+  listeners: SyntheticListenerMap | undefined
+  attributes: DraggableAttributes
+}
+
+export interface ITaskInfoEditMode {
+  title: string
+  handleInputKeyDown: (
+    event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  warning: boolean
+  description: string
+  setDescription: React.Dispatch<React.SetStateAction<string>>
+  maxTitleLength: number
 }

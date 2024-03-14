@@ -51,7 +51,7 @@ const Column = ({ title, tasks }: IColumn) => {
       {title === 'ToDo' && (
         <div
           onClick={addTask}
-          className="m-4"
+          className="w-full p-4"
         >
           <Button
             isAdd

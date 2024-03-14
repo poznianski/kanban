@@ -1,5 +1,6 @@
 import clsx from 'clsx/lite'
 import Image from 'next/image'
+import { twMerge } from 'tailwind-merge'
 
 interface IButton {
   onClick?: () => void
@@ -13,12 +14,12 @@ const Button = ({ onClick, isAdd, label, sm, disabled }: IButton) => {
   return (
     <button
       type="button"
-      className={clsx(
-        'inline-flex  items-center justify-center gap-2 rounded bg-theme-main text-bg-secondary transition-all ease-in-out hover:bg-theme-secondary hover:text-text-main',
-        sm
-          ? 'h-[35px] w-[100px] border-2 border-text-main'
-          : 'h-[50px] w-[200px]',
-        disabled && 'disabled',
+      className={twMerge(
+        clsx(
+          'hover inline-flex h-[50px] w-full items-center justify-center gap-2 rounded bg-theme-main p-2 text-bg-secondary ease-in-out hover:bg-theme-secondary hover:text-text-main',
+          sm && 'h-[36px]',
+          disabled && 'disabled',
+        ),
       )}
       onClick={onClick}
       disabled={disabled}

@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+$transition-delay: 0.3s;
+$transition: $transition-delay ease all;
+$dark: #222327;
+
 body {
-  @apply bg-bg-main text-text-main p-5;
+  @apply bg-bg-main p-5 text-text-main;
 }
 
 ::-webkit-scrollbar {
@@ -15,7 +19,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-theme-secondary rounded hover:bg-theme-main;
+  @apply rounded bg-theme-secondary hover:bg-theme-main;
 }
 
 .column > ::-webkit-scrollbar-thumb {
@@ -25,9 +29,9 @@ body {
 
 .icon {
   width: 26px;
-  transition: 0.3s all ease;
+  transition: $transition;
 
-  fill: #222327;
+  fill: $dark;
 
   &:hover {
     cursor: pointer;
@@ -36,11 +40,13 @@ body {
 }
 
 .warning-message {
-  transition: opacity 0.3s, transform 0.3s;
+  transition:
+    opacity $transition-delay,
+    transform $transition-delay;
   opacity: 0;
   transform: translateY(-10px);
 
-  @apply text-bg-secondary
+  @apply text-bg-secondary;
 }
 
 .warning-visible {
@@ -49,8 +55,10 @@ body {
 }
 
 .disabled {
-  transition: 0.3s ease all;
   cursor: not-allowed;
   opacity: 40%;
 }
 
+.hover {
+  transition: $transition;
+}

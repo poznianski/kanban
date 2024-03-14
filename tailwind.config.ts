@@ -15,6 +15,9 @@ const config: Config = {
         'theme-main': '#00796b',
         'theme-secondary': '#01322b',
       },
+      transitionDelay: {
+        '300': '300ms',
+      },
     },
   },
   plugins: [],
