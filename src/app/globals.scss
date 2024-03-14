@@ -62,3 +62,11 @@ body {
 .hover {
   transition: $transition;
 }
+
+.task_hover-actions {
+  transition: $transition;
+  opacity: 0;
+}
+.visible {
+  opacity: 1;
+}

@@ -1,5 +1,6 @@
-import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 import React, { useContext } from 'react'
+
+import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 
 interface ISearchInput {
   searchQuery: string

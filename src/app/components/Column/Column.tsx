@@ -1,10 +1,11 @@
-import Button from '@/app/components/Button/Button'
-import Task from '@/app/components/Task/Task'
-import { BoardContext } from '@/app/context/BoardContext/BoardContext'
-import { ITask } from '@/types'
 import { useDroppable } from '@dnd-kit/core'
 import { SortableContext } from '@dnd-kit/sortable'
 import { useContext, useMemo } from 'react'
+
+import Button from '@/app/components/Button/Button'
+import Task from '@/app/components/Task/Task'
+import { BoardContext } from '@/app/context/BoardContext/BoardContext'
+import { ITask } from '@/types/types'
 
 interface IColumn {
   title: string

@@ -1,4 +1,4 @@
-import { IBoard } from '@/types'
+import { IBoard } from '@/types/types'
 
 import prisma from '../../../../prisma/db'
 

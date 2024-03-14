@@ -1,7 +1,8 @@
+import React, { useContext, useState } from 'react'
+
 import Button from '@/app/components/Button/Button'
 import SearchInput from '@/app/components/SearchInput/SearchInput'
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
-import React, { useContext, useState } from 'react'
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState<string>('')

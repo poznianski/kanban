@@ -1,15 +1,15 @@
 'use client'
 
-import Button from '@/app/components/Button/Button'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import { clsx } from 'clsx'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+
+import TaskActions from '@/app/components/TaskActions/TaskActions'
 import TaskInfo from '@/app/components/TaskInfo/TaskInfo'
 import TaskInfoEditMode from '@/app/components/TaskInfoEditMode/TaskInfoEditMode'
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
-import DeleteIcon from '@/app/icons/DeleteIcon'
-import EditIcon from '@/app/icons/EditIcon'
-import { ITask } from '@/types'
-import { useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { ITask } from '@/types/types'
 
 const Task = ({
   id,
@@ -18,7 +18,7 @@ const Task = ({
   position,
   status,
 }: ITask) => {
-  const { board, deleteTask, updateTask } = useContext(BoardContext)
+  const { board, updateTask } = useContext(BoardContext)
   const [editMode, setEditMode] = useState(false)
   const [title, setTitle] = useState(initialTitle)
   const [description, setDescription] = useState(initialDescription)
@@ -106,8 +106,8 @@ const Task = ({
   if (isDragging) {
     return (
       <div
-        className="mb-4 min-h-[140px] w-full rounded-2xl border-2 border-text-main
-      bg-theme-main p-4 opacity-50"
+        className="mb-4 min-h-[140px] w-full rounded-2xl border-2
+        border-text-main bg-theme-main p-4 opacity-50"
         style={style}
         ref={setNodeRef}
         {...listeners}
@@ -120,8 +120,9 @@ const Task = ({
     <div
       style={style}
       ref={setNodeRef}
-      className="relative mb-4 flex h-[180px] min-h-[140px] w-full flex-col overflow-y-auto
-       rounded-2xl border-2 border-transparent bg-theme-main p-4 transition-all hover:border-text-main"
+      className="hover relative mb-4 flex h-[180px] min-h-[180px] w-full
+      overflow-y-auto rounded-2xl border-2
+      border-transparent bg-theme-main p-4 hover:border-text-main"
       onMouseOver={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
@@ -149,34 +150,14 @@ const Task = ({
           )}
         </div>
 
-        {showActions && (
-          <div className="flex justify-end gap-4">
-            {editMode ? (
-              <div className="flex justify-center gap-2">
-                <div onClick={onSave}>
-                  <Button
-                    sm
-                    label="Save"
-                  />
-                </div>
-              </div>
-            ) : (
-              <div className="flex items-center justify-center gap-4">
-                <div
-                  onClick={() => {
-                    setEditMode(true)
-                  }}
-                >
-                  <EditIcon />
-                </div>
-
-                <div onClick={() => deleteTask(id)}>
-                  <DeleteIcon />
-                </div>
-              </div>
-            )}
-          </div>
-        )}
+        <div className={clsx('task_hover-actions', showActions && 'visible')}>
+          <TaskActions
+            editMode={editMode}
+            onSave={onSave}
+            setEditMode={setEditMode}
+            id={id}
+          />
+        </div>
       </div>
     </div>
   )

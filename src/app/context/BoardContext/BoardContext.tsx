@@ -1,22 +1,23 @@
 'use client'
 
+import { DragOverEvent, DragStartEvent } from '@dnd-kit/core'
+import { arrayMove } from '@dnd-kit/sortable'
+import React, { createContext, ReactNode, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
+import { v4 } from 'uuid'
+
 import { initialState } from '@/app/context/BoardContext/initialValue'
 import { boardService } from '@/app/services/boardService'
 import { taskService } from '@/app/services/taskService'
-import { IBoard, IBoardContext, ITask } from '@/types'
+import { IBoard, IBoardContext, ITask } from '@/types/types'
 import {
   TASK_CREATED,
   TASK_DELETED,
   TASK_POSITIONS_UPDATE,
   TASK_UPDATE,
 } from '@/utils/constants'
-import { DragOverEvent, DragStartEvent } from '@dnd-kit/core'
-import { arrayMove } from '@dnd-kit/sortable'
-import React, { ReactNode, useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import { v4 as uuidv4 } from 'uuid'
 
-export const BoardContext = React.createContext<IBoardContext>(initialState)
+export const BoardContext = createContext<IBoardContext>(initialState)
 
 export const BoardProvider = ({ children }: { children: ReactNode }) => {
   const [board, setBoard] = useState<IBoard | null>(null)
@@ -41,7 +42,7 @@ export const BoardProvider = ({ children }: { children: ReactNode }) => {
     if (!board) return
 
     const newTask: ITask = {
-      id: uuidv4(),
+      id: v4(),
       title: `New Task ${tasks.length + 1}`,
       status: 'ToDo',
       boardId: board.id,

@@ -1,10 +1,3 @@
-import BoardHeader from '@/app/components/BoardHeader/BoardHeader'
-import Column from '@/app/components/Column/Column'
-import { columns } from '@/app/components/ColumnsList/columns'
-import Loader from '@/app/components/Loader/Loader'
-import Task from '@/app/components/Task/Task'
-import WelcomeText from '@/app/components/WelcomeText/WelcomeText'
-import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 import {
   DndContext,
   DragOverlay,
@@ -15,6 +8,14 @@ import {
 } from '@dnd-kit/core'
 import { SortableContext } from '@dnd-kit/sortable'
 import React, { useContext, useEffect } from 'react'
+
+import BoardHeader from '@/app/components/BoardHeader/BoardHeader'
+import Column from '@/app/components/Column/Column'
+import { columns } from '@/app/components/ColumnsList/columns'
+import Loader from '@/app/components/Loader/Loader'
+import Task from '@/app/components/Task/Task'
+import WelcomeText from '@/app/components/WelcomeText/WelcomeText'
+import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 
 const ColumnsList = () => {
   const {

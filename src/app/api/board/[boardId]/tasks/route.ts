@@ -1,6 +1,7 @@
-import { createTask, getTasksByBoardId } from '@/app/api/task/service'
-import { createEdgeRouter } from 'next-connect'
 import { NextRequest, NextResponse } from 'next/server'
+import { createEdgeRouter } from 'next-connect'
+
+import { createTask, getTasksByBoardId } from '@/app/api/task/service'
 
 interface RequestContext {
   params: {

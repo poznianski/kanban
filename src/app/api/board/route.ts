@@ -1,11 +1,12 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { createEdgeRouter } from 'next-connect'
+
 import {
   createBoard,
   deleteBoard,
   getAllBoards,
   updateBoard,
 } from '@/app/api/board/service'
-import { createEdgeRouter } from 'next-connect'
-import { NextRequest, NextResponse } from 'next/server'
 
 const router = createEdgeRouter<NextRequest, { params?: unknown }>()
 

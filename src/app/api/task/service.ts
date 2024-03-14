@@ -1,4 +1,4 @@
-import { ITask } from '@/types'
+import { ITask } from '@/types/types'
 
 import prisma from '../../../../prisma/db'
 

@@ -1,8 +1,10 @@
-import Header from '@/app/components/Header/Header'
-import { renderBoardContext } from '@/utils/renderBoardContext'
 import '@testing-library/jest-dom/vitest'
+
 import { fireEvent, screen } from '@testing-library/react'
 import { describe, expect, test, vi } from 'vitest'
+
+import Header from '@/app/components/Header/Header'
+import { renderBoardContext } from '@/utils/renderBoardContext'
 
 const mockFetchBoardById = vi.fn()
 

@@ -1,4 +1,4 @@
-import clsx from 'clsx/lite'
+import { clsx } from 'clsx/lite'
 import Image from 'next/image'
 import { twMerge } from 'tailwind-merge'
 
@@ -17,7 +17,7 @@ const Button = ({ onClick, isAdd, label, sm, disabled }: IButton) => {
       className={twMerge(
         clsx(
           'hover inline-flex h-[50px] w-full items-center justify-center gap-2 rounded bg-theme-main p-2 text-bg-secondary ease-in-out hover:bg-theme-secondary hover:text-text-main',
-          sm && 'h-[36px]',
+          sm && 'h-[36px] border',
           disabled && 'disabled',
         ),
       )}

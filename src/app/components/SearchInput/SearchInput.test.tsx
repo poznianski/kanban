@@ -1,8 +1,9 @@
-import SearchInput from '@/app/components/SearchInput/SearchInput'
-import { renderBoardContext } from '@/utils/renderBoardContext'
 import { fireEvent, screen } from '@testing-library/react'
 import React from 'react'
 import { describe, expect, test, vi } from 'vitest'
+
+import SearchInput from '@/app/components/SearchInput/SearchInput'
+import { renderBoardContext } from '@/utils/renderBoardContext'
 
 describe('SearchInput', () => {
   const mockHandleSearchChange = vi.fn()

@@ -1,5 +1,5 @@
 import httpClient from '@/app/services/httpClient'
-import { IBoard } from '@/types'
+import { IBoard } from '@/types/types'
 
 const getBoardById = async (id: string) => {
   return await httpClient.get(`/board/${id}`)

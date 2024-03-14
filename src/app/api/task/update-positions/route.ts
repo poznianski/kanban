@@ -1,6 +1,7 @@
-import { updateTasksPositions } from '@/app/api/task/service'
-import { createEdgeRouter } from 'next-connect'
 import { NextRequest, NextResponse } from 'next/server'
+import { createEdgeRouter } from 'next-connect'
+
+import { updateTasksPositions } from '@/app/api/task/service'
 
 const router = createEdgeRouter<NextRequest, RequestContext>()
 

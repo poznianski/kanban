@@ -1,6 +1,7 @@
-import { ITaskInfoEditMode } from '@/types'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import React from 'react'
+
+import { ITaskInfoEditMode } from '@/types/types'
 
 const TaskInfoEditMode = ({
   title,
@@ -18,11 +19,16 @@ const TaskInfoEditMode = ({
         onChange={handleChange}
         autoFocus
         onKeyDown={handleInputKeyDown}
-        className="mb-2 rounded border border-text-main bg-theme-main
-            px-2 text-xl font-bold outline-none"
+        className="mb-2 w-full rounded border border-text-main
+            bg-theme-main px-2 text-xl font-bold outline-none"
       />
 
-      <p className={clsx('warning-message m-0', warning && 'warning-visible')}>
+      <p
+        className={clsx(
+          'warning-message m-0 w-full',
+          warning && 'warning-visible',
+        )}
+      >
         {warning && `No more than ${maxTitleLength} characters`}
       </p>
 
@@ -30,8 +36,8 @@ const TaskInfoEditMode = ({
         onChange={(e) => setDescription(e.target.value)}
         onKeyDown={handleInputKeyDown}
         value={description}
-        className="mb-2 rounded border border-text-main bg-theme-main px-2
-             outline-none"
+        className="mb-2 w-full rounded border border-text-main bg-theme-main
+             px-2 outline-none"
       />
     </div>
   )

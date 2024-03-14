@@ -1,6 +1,7 @@
+import React, { useContext } from 'react'
+
 import Button from '@/app/components/Button/Button'
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
-import React, { useContext } from 'react'
 
 const WelcomeText = () => {
   const { createBoard } = useContext(BoardContext)

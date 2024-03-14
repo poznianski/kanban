@@ -1,6 +1,7 @@
-import { getBoardById } from '@/app/api/board/service'
-import { createEdgeRouter } from 'next-connect'
 import { NextRequest, NextResponse } from 'next/server'
+import { createEdgeRouter } from 'next-connect'
+
+import { getBoardById } from '@/app/api/board/service'
 
 const router = createEdgeRouter<NextRequest, RequestContext>()
 

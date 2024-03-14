@@ -1,8 +1,9 @@
+import React, { useContext, useState } from 'react'
+import { Tooltip } from 'react-tooltip'
+
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 import CopyIcon from '@/app/icons/CopyIcon'
 import { COPY } from '@/utils/constants'
-import React, { useContext, useState } from 'react'
-import { Tooltip } from 'react-tooltip'
 
 const BoardHeader = () => {
   const { board, updateBoard, boardName, setBoardName } =

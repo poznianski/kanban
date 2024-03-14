@@ -1,7 +1,7 @@
 import {
+  DraggableAttributes,
   DragOverEvent,
   DragStartEvent,
-  DraggableAttributes,
 } from '@dnd-kit/core'
 import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities'
 import React from 'react'
@@ -59,4 +59,11 @@ export interface ITaskInfoEditMode {
   description: string
   setDescription: React.Dispatch<React.SetStateAction<string>>
   maxTitleLength: number
+}
+
+export interface ITaskActions {
+  editMode: boolean
+  onSave: () => void
+  setEditMode: React.Dispatch<React.SetStateAction<boolean>>
+  id: string
 }

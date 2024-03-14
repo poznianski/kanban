@@ -1,5 +1,6 @@
-import { IBoard, IBoardContext, ITask } from '@/types'
 import { DragOverEvent, DragStartEvent } from '@dnd-kit/core'
+
+import { IBoard, IBoardContext, ITask } from '@/types/types'
 
 export const initialState: IBoardContext = {
   board: null,

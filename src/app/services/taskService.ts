@@ -1,5 +1,5 @@
 import httpClient from '@/app/services/httpClient'
-import { ITask } from '@/types'
+import { ITask } from '@/types/types'
 
 const addTask = async (boardId: string, task: ITask) => {
   const { data } = await httpClient.post(`/board/${boardId}/tasks`, task)
