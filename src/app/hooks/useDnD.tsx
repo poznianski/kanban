@@ -11,14 +11,14 @@ import { TASK_POSITIONS_UPDATE } from '@/utils/constants'
 export const useDnD = (
   tasks: ITask[],
   setTasks: React.Dispatch<React.SetStateAction<ITask[]>>,
-  setActiveId: React.Dispatch<React.SetStateAction<string | null>>,
+  setActiveId: React.Dispatch<React.SetStateAction<number | null>>,
 ) => {
   const { errorMessage, setErrorMessage } = useContext(BoardContext)
   const [tasksToRevert, setTasksToRevert] = useState<ITask[]>([])
 
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event
-    setActiveId(active.id as string)
+    setActiveId(+active.id)
 
     setTasksToRevert(tasks)
   }
@@ -71,7 +71,7 @@ export const useDnD = (
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((task) => task.id === active.id)
 
-        tasks[activeIndex].status = over.id as string
+        tasks[activeIndex].status = String(over.id)
 
         return arrayMove(tasks, activeIndex, activeIndex)
       })

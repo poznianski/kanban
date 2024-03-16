@@ -17,7 +17,7 @@ model Board {
 }
 
 model Task {
-  id          String   @id @default(uuid())
+  id          Int      @id
   title       String
   description String?
   status      String

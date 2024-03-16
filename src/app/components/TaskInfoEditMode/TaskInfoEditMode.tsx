@@ -36,8 +36,8 @@ const TaskInfoEditMode = ({
         onChange={(e) => setDescription(e.target.value)}
         onKeyDown={handleInputKeyDown}
         value={description}
-        className="mb-2 w-full rounded border border-text-main bg-theme-main
-             px-2 outline-none"
+        className="mb-2 w-full resize-none rounded border border-text-main
+             bg-theme-main px-2 outline-none"
       />
     </div>
   )

@@ -7,8 +7,8 @@ const addTask = async (boardId: string, task: ITask) => {
   return data
 }
 
-const deleteTask = async (taskId: string) => {
-  await httpClient.delete(`/task/${taskId}`)
+const deleteTask = async (id: number) => {
+  await httpClient.delete(`/task/${id}`)
 }
 
 const updateTask = async ({

@@ -62,6 +62,7 @@
     "jsdom": "^24.0.0",
     "postcss": "^8.4.31",
     "prettier": "^3.1.0",
+    "prettier-plugin-prisma": "^5.0.0",
     "prettier-plugin-tailwindcss": "^0.5.7",
     "prisma": "^5.11.0",
     "sass": "^1.70.0",

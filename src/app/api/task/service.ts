@@ -1,3 +1,5 @@
+import { log } from 'node:util'
+
 import { ITask } from '@/types/types'
 
 import prisma from '../../../../prisma/db'
@@ -8,7 +10,7 @@ export const getTasksByBoardId = (boardId: string) =>
     orderBy: { position: 'asc' },
   })
 
-export const getTaskById = (id: string) =>
+export const getTaskById = (id: number) =>
   prisma.task.findUnique({
     where: {
       id,
@@ -68,7 +70,8 @@ export const updateTasksPositions = async (tasks: ITask[]) => {
   return await prisma.$transaction(updates)
 }
 
-export const deleteTask = (id: string) =>
+export const deleteTask = (id: number) => {
   prisma.task.delete({
     where: { id },
   })
+}

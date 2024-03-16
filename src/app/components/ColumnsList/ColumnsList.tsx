@@ -41,7 +41,6 @@ const ColumnsList = () => {
   }
 
   const activeTask = tasks.find((task) => task.id === activeId)
-  console.log('TASKS in list', tasks)
 
   return !board ? (
     <WelcomeText />

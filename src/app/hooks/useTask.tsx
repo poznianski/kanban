@@ -1,23 +1,23 @@
 import { useContext, useState } from 'react'
 import { toast } from 'react-toastify'
-import { v4 } from 'uuid'
 
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 import { taskService } from '@/app/services/taskService'
 import { IBoard, ITask } from '@/types/types'
 import { TASK_CREATED, TASK_DELETED, TASK_UPDATE } from '@/utils/constants'
+import { generateId } from '@/utils/generateId'
 
 const useTask = (board: IBoard | null) => {
   const { errorMessage, setErrorMessage } = useContext(BoardContext)
   const [tasks, setTasks] = useState<ITask[]>([])
-  const [activeId, setActiveId] = useState<string | null>(null)
+  const [activeId, setActiveId] = useState<number | null>(null)
   const [tasksToRevert, setTasksToRevert] = useState<ITask[]>([])
 
   const addTask = async () => {
     if (!board) return
 
     const newTask: ITask = {
-      id: v4(),
+      id: generateId(),
       title: `New Task ${tasks.length + 1}`,
       status: 'ToDo',
       boardId: board.id,
@@ -44,7 +44,7 @@ const useTask = (board: IBoard | null) => {
     }
   }
 
-  const deleteTask = async (taskId: string) => {
+  const deleteTask = async (taskId: number) => {
     if (!board) return
 
     const previousTasks = [...tasks]

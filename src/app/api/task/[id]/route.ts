@@ -5,7 +5,7 @@ import { deleteTask, getTaskById, updateTask } from '@/app/api/task/service'
 
 interface RequestContext {
   params: {
-    id: string
+    id: number
   }
 }
 
@@ -26,7 +26,7 @@ router
       const { title, description, status, boardId, position } = await req.json()
 
       const updatedTask = await updateTask({
-        id,
+        id: +id,
         boardId,
         title,
         description,

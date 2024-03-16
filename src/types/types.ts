@@ -13,7 +13,7 @@ export interface IBoard {
 }
 
 export interface ITask {
-  id: string
+  id: number
   boardId: string
   title: string
   description: string
@@ -36,10 +36,10 @@ export interface IBoardContext {
   handleDragEnd: () => Promise<void>
   handleDragStart: (event: DragStartEvent) => void
   handleDragOver: (event: DragOverEvent) => void
-  activeId: string | null
-  setActiveId: Dispatch<SetStateAction<string | null>>
+  activeId: number | null
+  setActiveId: Dispatch<SetStateAction<number | null>>
   updateTask: (task: ITask) => Promise<void>
-  deleteTask: (taskId: string) => Promise<void>
+  deleteTask: (taskId: number) => Promise<void>
   addTask: () => Promise<void>
   isLoading: boolean
 }
@@ -67,5 +67,5 @@ export interface ITaskActions {
   editMode: boolean
   onSave: () => void
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>
-  id: string
+  id: number
 }

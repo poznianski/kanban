@@ -16,6 +16,7 @@ const useBoard = () => {
     try {
       const { data } = await boardService.getBoardById(boardId)
       setBoard(data)
+      setBoardName(data.name)
       setErrorMessage('')
       setIsLoading(false)
     } catch (error: any) {
@@ -31,6 +32,7 @@ const useBoard = () => {
       const newBoard = await boardService.createBoard({ name: 'New Board' })
 
       setBoard(newBoard)
+      setBoardName(newBoard.name)
       await fetchBoardById(newBoard.id)
       setIsLoading(false)
     } catch (error: any) {
@@ -48,6 +50,7 @@ const useBoard = () => {
     }
 
     setBoard(updatedBoard)
+    setBoardName(updatedBoard.name)
 
     try {
       const updatedBoard = await boardService.updateBoard({ id, name })

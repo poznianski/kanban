@@ -5,9 +5,11 @@ import { ITaskInfo } from '@/types/types'
 
 const TaskInfo = ({ title, description, attributes, listeners }: ITaskInfo) => {
   return (
-    <>
+    <div className="flex flex-col">
       <div className="flex flex-row justify-between">
-        <h1 className="border border-transparent text-xl font-bold">{title}</h1>
+        <h1 className="w-full border border-transparent text-xl font-bold">
+          {title}
+        </h1>
 
         <div
           {...listeners}
@@ -18,8 +20,8 @@ const TaskInfo = ({ title, description, attributes, listeners }: ITaskInfo) => {
         </div>
       </div>
 
-      <p className="mb-2 break-words">{description}</p>
-    </>
+      <p className="block w-full">{description}</p>
+    </div>
   )
 }
 

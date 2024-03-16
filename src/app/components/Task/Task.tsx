@@ -120,35 +120,33 @@ const Task = ({
     <div
       style={style}
       ref={setNodeRef}
-      className="hover relative mb-4 flex h-[180px] min-h-[180px] w-full
-      overflow-y-auto rounded-2xl border-2
+      className="relative mb-4 flex h-[180px] min-h-[180px] w-full
+      overflow-y-auto overflow-x-hidden rounded-2xl border-2
       border-transparent bg-theme-main p-4 hover:border-text-main"
       onMouseOver={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
       <div className="flex flex-col justify-between">
-        <div>
-          {!editMode && (
-            <TaskInfo
-              attributes={attributes}
-              listeners={listeners}
-              title={title}
-              description={description}
-            />
-          )}
+        {!editMode && (
+          <TaskInfo
+            attributes={attributes}
+            listeners={listeners}
+            title={title}
+            description={description}
+          />
+        )}
 
-          {editMode && (
-            <TaskInfoEditMode
-              handleInputKeyDown={handleInputKeyDown}
-              handleChange={handleChange}
-              warning={warning}
-              title={title}
-              description={description}
-              maxTitleLength={maxTitleLength}
-              setDescription={setDescription}
-            />
-          )}
-        </div>
+        {editMode && (
+          <TaskInfoEditMode
+            handleInputKeyDown={handleInputKeyDown}
+            handleChange={handleChange}
+            warning={warning}
+            title={title}
+            description={description}
+            maxTitleLength={maxTitleLength}
+            setDescription={setDescription}
+          />
+        )}
 
         <div className={clsx('task_hover-actions', showActions && 'visible')}>
           <TaskActions
