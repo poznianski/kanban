@@ -7,7 +7,7 @@ import {
   useSensors,
 } from '@dnd-kit/core'
 import { SortableContext } from '@dnd-kit/sortable'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 
 import BoardHeader from '@/app/components/BoardHeader/BoardHeader'
 import Column from '@/app/components/Column/Column'
@@ -19,21 +19,14 @@ import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 
 const ColumnsList = () => {
   const {
-    board,
-    setBoard,
     tasks,
-    handleDragEnd,
+    isLoading,
+    board,
+    activeId,
     handleDragStart,
     handleDragOver,
-    activeId,
-    isLoading,
+    handleDragEnd,
   } = useContext(BoardContext)
-
-  const activeTask = tasks.find((task) => task.id === activeId)
-
-  useEffect(() => {
-    setBoard(board)
-  }, [board, setBoard])
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -47,55 +40,54 @@ const ColumnsList = () => {
     return <Loader />
   }
 
-  if (!board) {
-    return <WelcomeText />
-  }
+  const activeTask = tasks.find((task) => task.id === activeId)
+  console.log('TASKS in list', tasks)
 
-  if (board) {
-    return (
-      <>
-        <BoardHeader />
+  return !board ? (
+    <WelcomeText />
+  ) : (
+    <>
+      <BoardHeader />
 
-        <section className="flex flex-col gap-5 ">
-          <div className="flex justify-center">
-            <div className="flex gap-5 overflow-x-auto">
-              <DndContext
-                sensors={sensors}
-                collisionDetection={pointerWithin}
-                onDragStart={handleDragStart}
-                onDragOver={handleDragOver}
-                onDragEnd={handleDragEnd}
-              >
-                <SortableContext items={columns}>
-                  {columns.map(({ title, id }) => (
-                    <Column
-                      key={id}
-                      title={title}
-                      tasks={tasks.filter((task) => task?.status === id)}
-                    />
-                  ))}
-                </SortableContext>
+      <section className="flex flex-col gap-5">
+        <div className="flex justify-center">
+          <div className="flex gap-5 overflow-x-auto">
+            <DndContext
+              sensors={sensors}
+              collisionDetection={pointerWithin}
+              onDragStart={handleDragStart}
+              onDragOver={handleDragOver}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext items={columns}>
+                {columns.map(({ title, id }) => (
+                  <Column
+                    key={id}
+                    title={title}
+                    tasks={tasks.filter((task) => task?.status === id)}
+                  />
+                ))}
+              </SortableContext>
 
-                <DragOverlay>
-                  {activeTask && (
-                    <Task
-                      key={activeTask.id}
-                      title={activeTask.title}
-                      boardId={activeTask.boardId}
-                      id={activeTask.id}
-                      status={activeTask.status}
-                      description={activeTask.description}
-                      position={activeTask.position}
-                    />
-                  )}
-                </DragOverlay>
-              </DndContext>
-            </div>
+              <DragOverlay>
+                {activeTask && (
+                  <Task
+                    key={activeTask.id}
+                    title={activeTask.title}
+                    boardId={activeTask.boardId}
+                    id={activeTask.id}
+                    status={activeTask.status}
+                    description={activeTask.description}
+                    position={activeTask.position}
+                  />
+                )}
+              </DragOverlay>
+            </DndContext>
           </div>
-        </section>
-      </>
-    )
-  }
+        </div>
+      </section>
+    </>
+  )
 }
 
 export default ColumnsList

@@ -4,7 +4,7 @@ import {
   DragStartEvent,
 } from '@dnd-kit/core'
 import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities'
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 
 export interface IBoard {
   id: string
@@ -32,10 +32,12 @@ export interface IBoardContext {
   boardName: string
   setBoardName: React.Dispatch<React.SetStateAction<string>>
   tasks: ITask[]
+  setTasks: React.Dispatch<SetStateAction<ITask[]>>
   handleDragEnd: () => Promise<void>
   handleDragStart: (event: DragStartEvent) => void
   handleDragOver: (event: DragOverEvent) => void
   activeId: string | null
+  setActiveId: Dispatch<SetStateAction<string | null>>
   updateTask: (task: ITask) => Promise<void>
   deleteTask: (taskId: string) => Promise<void>
   addTask: () => Promise<void>
