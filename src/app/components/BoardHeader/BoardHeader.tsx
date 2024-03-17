@@ -3,6 +3,7 @@ import { Tooltip } from 'react-tooltip'
 
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 import CopyIcon from '@/app/icons/CopyIcon'
+import { InputKeyEvent } from '@/types/types'
 import { MESSAGES } from '@/utils/constants'
 
 const BoardHeader = () => {
@@ -11,7 +12,7 @@ const BoardHeader = () => {
   const [tooltipMessage, setTooltipMessage] = useState(MESSAGES.COPY)
   const [editMode, setEditMode] = useState(false)
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (event: InputKeyEvent) => {
     if (event.key === 'Enter') {
       handleBoardNameUpdate()
     }

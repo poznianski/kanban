@@ -3,19 +3,20 @@ import React, { useContext, useState } from 'react'
 import Button from '@/app/components/Button/Button'
 import SearchInput from '@/app/components/SearchInput/SearchInput'
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
+import { InputChangeEvent } from '@/types/types'
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState<string>('')
   const { fetchBoardById } = useContext(BoardContext)
   const buttonDisabled = searchQuery.length === 0
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = (event: InputChangeEvent) => {
     setSearchQuery(event.target.value)
   }
 
   return (
     <header className="container mx-auto">
-      <div className="mb-5 flex flex-col items-center gap-4 sm:mb-10 sm:flex-row  sm:gap-20">
+      <form className="mb-5 flex flex-col items-center gap-4 sm:mb-10 sm:flex-row  sm:gap-20">
         <SearchInput
           searchQuery={searchQuery}
           handleSearchChange={handleSearchChange}
@@ -28,7 +29,7 @@ const Header = () => {
             disabled={buttonDisabled}
           />
         </div>
-      </div>
+      </form>
     </header>
   )
 }

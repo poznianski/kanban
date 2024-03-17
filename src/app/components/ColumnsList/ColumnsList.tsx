@@ -72,12 +72,7 @@ const ColumnsList = () => {
                 {activeTask && (
                   <Task
                     key={activeTask.id}
-                    title={activeTask.title}
-                    boardId={activeTask.boardId}
-                    id={activeTask.id}
-                    status={activeTask.status}
-                    description={activeTask.description}
-                    position={activeTask.position}
+                    {...activeTask}
                   />
                 )}
               </DragOverlay>

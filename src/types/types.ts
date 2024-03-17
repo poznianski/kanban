@@ -69,8 +69,8 @@ export interface ITaskActions {
   id: number
 }
 
-export interface ApiError {
-  message: string
-  status: number
-  data?: any
-}
+export type InputChangeEvent = React.ChangeEvent<HTMLInputElement>
+export type InputKeyEvent = React.KeyboardEvent<HTMLInputElement>
+export type KeyboardEvent = React.KeyboardEvent<
+  HTMLInputElement | HTMLTextAreaElement
+>

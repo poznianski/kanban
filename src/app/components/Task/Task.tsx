@@ -9,7 +9,7 @@ import TaskActions from '@/app/components/TaskActions/TaskActions'
 import TaskInfo from '@/app/components/TaskInfo/TaskInfo'
 import TaskInfoEditMode from '@/app/components/TaskInfoEditMode/TaskInfoEditMode'
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
-import { ITask } from '@/types/types'
+import { InputChangeEvent, ITask, KeyboardEvent } from '@/types/types'
 import { VALUES } from '@/utils/constants'
 
 const Task = ({
@@ -52,16 +52,7 @@ const Task = ({
     setEditMode(false)
   }
 
-  useEffect(() => {
-    if (!editMode) {
-      prevTitle.current = title
-      prevDescription.current = description
-    }
-  }, [editMode, title, description])
-
-  const handleInputKeyDown = (
-    event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleInputKeyDown = (event: KeyboardEvent) => {
     const isTextArea = event.target instanceof HTMLTextAreaElement
 
     if (event.key === 'Enter' && !isTextArea) {
@@ -73,7 +64,7 @@ const Task = ({
     }
   }
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: InputChangeEvent) => {
     const { value } = event.target
 
     if (value.length <= VALUES.MAX_CHARACTERS) {
@@ -102,6 +93,13 @@ const Task = ({
     transition,
     transform: CSS.Translate.toString(transform),
   }
+
+  useEffect(() => {
+    if (!editMode) {
+      prevTitle.current = title
+      prevDescription.current = description
+    }
+  }, [editMode, title, description])
 
   if (isDragging) {
     return (

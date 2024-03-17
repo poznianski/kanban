@@ -13,7 +13,7 @@ const TaskInfoEditMode = ({
   setDescription,
 }: ITaskInfoEditMode) => {
   return (
-    <div className="flex flex-col">
+    <form className="flex flex-col">
       <input
         value={title}
         onChange={handleChange}
@@ -39,7 +39,7 @@ const TaskInfoEditMode = ({
         className="mb-2 w-full resize-none rounded border border-text-main
              bg-theme-main px-2 outline-none"
       />
-    </div>
+    </form>
   )
 }
 
