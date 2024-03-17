@@ -1,5 +1,3 @@
-import { log } from 'node:util'
-
 import { ITask } from '@/types/types'
 
 import prisma from '../../../../prisma/db'

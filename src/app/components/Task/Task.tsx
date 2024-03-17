@@ -10,6 +10,7 @@ import TaskInfo from '@/app/components/TaskInfo/TaskInfo'
 import TaskInfoEditMode from '@/app/components/TaskInfoEditMode/TaskInfoEditMode'
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 import { ITask } from '@/types/types'
+import { VALUES } from '@/utils/constants'
 
 const Task = ({
   id,
@@ -26,7 +27,6 @@ const Task = ({
   const [warning, setWarning] = useState(false)
   const prevTitle = useRef(title)
   const prevDescription = useRef(description)
-  const maxTitleLength = 15
 
   const {
     attributes,
@@ -76,7 +76,7 @@ const Task = ({
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
 
-    if (value.length <= maxTitleLength) {
+    if (value.length <= VALUES.MAX_CHARACTERS) {
       setTitle(value)
       setWarning(false)
     } else {
@@ -143,7 +143,6 @@ const Task = ({
             warning={warning}
             title={title}
             description={description}
-            maxTitleLength={maxTitleLength}
             setDescription={setDescription}
           />
         )}

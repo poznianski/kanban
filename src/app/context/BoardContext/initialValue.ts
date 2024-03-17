@@ -19,6 +19,7 @@ export const initialState: IBoardContext = {
   boardName: '',
   setBoardName: () => {},
   tasks: [],
+  setTasks: () => {},
   handleDragEnd: async () => {
     throw new Error('handleDragEnd not implemented')
   },
@@ -29,10 +30,11 @@ export const initialState: IBoardContext = {
     throw new Error('handleDragOver not implemented')
   },
   activeId: null,
+  setActiveId: () => {},
   updateTask: async (_task: ITask) => {
     throw new Error('updateTask not implemented')
   },
-  deleteTask: async (_taskId: string) => {
+  deleteTask: async (_id: number) => {
     throw new Error('deleteTask not implemented')
   },
   addTask: async () => {

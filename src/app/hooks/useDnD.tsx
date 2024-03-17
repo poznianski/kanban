@@ -1,20 +1,20 @@
 import { DragOverEvent, DragStartEvent } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 
-import { BoardContext } from '@/app/context/BoardContext/BoardContext'
+import useError from '@/app/hooks/useError'
 import { taskService } from '@/app/services/taskService'
 import { ITask } from '@/types/types'
-import { TASK_POSITIONS_UPDATE } from '@/utils/constants'
+import { MESSAGES } from '@/utils/constants'
 
 export const useDnD = (
   tasks: ITask[],
   setTasks: React.Dispatch<React.SetStateAction<ITask[]>>,
   setActiveId: React.Dispatch<React.SetStateAction<number | null>>,
 ) => {
-  const { errorMessage, setErrorMessage } = useContext(BoardContext)
   const [tasksToRevert, setTasksToRevert] = useState<ITask[]>([])
+  const handleError = useError()
 
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event
@@ -36,11 +36,10 @@ export const useDnD = (
       const updatedTasks =
         await taskService.updateTasksPositions(newTasksPositions)
       setTasks(updatedTasks)
-      toast.success(TASK_POSITIONS_UPDATE)
-    } catch (error: any) {
+      toast.success(MESSAGES.TASK_POSITIONS_UPDATE)
+    } catch (error) {
       setTasks(tasksToRevert)
-      setErrorMessage(error.message || 'position update failed')
-      toast.error(errorMessage)
+      handleError(error)
     }
   }
 

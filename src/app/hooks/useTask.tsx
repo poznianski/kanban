@@ -1,17 +1,17 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
 
-import { BoardContext } from '@/app/context/BoardContext/BoardContext'
+import useError from '@/app/hooks/useError'
 import { taskService } from '@/app/services/taskService'
 import { IBoard, ITask } from '@/types/types'
-import { TASK_CREATED, TASK_DELETED, TASK_UPDATE } from '@/utils/constants'
+import { MESSAGES } from '@/utils/constants'
 import { generateId } from '@/utils/generateId'
 
 const useTask = (board: IBoard | null) => {
-  const { errorMessage, setErrorMessage } = useContext(BoardContext)
   const [tasks, setTasks] = useState<ITask[]>([])
   const [activeId, setActiveId] = useState<number | null>(null)
   const [tasksToRevert, setTasksToRevert] = useState<ITask[]>([])
+  const handleError = useError()
 
   const addTask = async () => {
     if (!board) return
@@ -36,11 +36,10 @@ const useTask = (board: IBoard | null) => {
       setTasks((prev) => {
         return prev.map((task) => (task.id === newTask.id ? createdTask : task))
       })
-      toast.success(TASK_CREATED)
-    } catch (error: any) {
+      toast.success(MESSAGES.TASK_CREATED)
+    } catch (error) {
       setTasks((prev) => prev.filter((task) => task.id !== newTask.id))
-      setErrorMessage(error.message)
-      toast.error(errorMessage)
+      handleError(error)
     }
   }
 
@@ -54,11 +53,10 @@ const useTask = (board: IBoard | null) => {
 
     try {
       await taskService.deleteTask(taskId)
-      toast.success(TASK_DELETED)
-    } catch (error: any) {
+      toast.success(MESSAGES.TASK_DELETED)
+    } catch (error) {
       setTasks(previousTasks)
-      setErrorMessage(error.message)
-      toast.error(errorMessage)
+      handleError(error)
     }
   }
 
@@ -95,12 +93,11 @@ const useTask = (board: IBoard | null) => {
           )
         })
 
-        toast.success(TASK_UPDATE)
+        toast.success(MESSAGES.TASK_UPDATED)
       }
     } catch (error: any) {
       setTasks(prevTasks)
-      setErrorMessage(error.message)
-      toast.error(errorMessage)
+      handleError(error)
     }
   }
 

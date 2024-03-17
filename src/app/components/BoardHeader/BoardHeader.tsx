@@ -3,12 +3,12 @@ import { Tooltip } from 'react-tooltip'
 
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 import CopyIcon from '@/app/icons/CopyIcon'
-import { COPY } from '@/utils/constants'
+import { MESSAGES } from '@/utils/constants'
 
 const BoardHeader = () => {
   const { board, updateBoard, boardName, setBoardName } =
     useContext(BoardContext)
-  const [tooltipMessage, setTooltipMessage] = useState(COPY)
+  const [tooltipMessage, setTooltipMessage] = useState(MESSAGES.COPY)
   const [editMode, setEditMode] = useState(false)
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {

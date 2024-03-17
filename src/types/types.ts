@@ -60,7 +60,6 @@ export interface ITaskInfoEditMode {
   warning: boolean
   description: string
   setDescription: React.Dispatch<React.SetStateAction<string>>
-  maxTitleLength: number
 }
 
 export interface ITaskActions {
@@ -68,4 +67,10 @@ export interface ITaskActions {
   onSave: () => void
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>
   id: number
+}
+
+export interface ApiError {
+  message: string
+  status: number
+  data?: any
 }

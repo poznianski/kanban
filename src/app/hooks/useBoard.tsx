@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
-import { toast } from 'react-toastify'
 
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
+import useError from '@/app/hooks/useError'
 import { boardService } from '@/app/services/boardService'
 import { IBoard } from '@/types/types'
 
@@ -10,6 +10,7 @@ const useBoard = () => {
   const [board, setBoard] = useState<IBoard | null>(null)
   const [boardName, setBoardName] = useState(``)
   const [isLoading, setIsLoading] = useState(false)
+  const handleError = useError()
 
   const fetchBoardById = async (boardId: string) => {
     setIsLoading(true)
@@ -19,10 +20,9 @@ const useBoard = () => {
       setBoardName(data.name)
       setErrorMessage('')
       setIsLoading(false)
-    } catch (error: any) {
+    } catch (error) {
       setIsLoading(false)
-      setErrorMessage(error.response.data)
-      toast.error(errorMessage)
+      handleError(error)
     }
   }
 
@@ -35,9 +35,9 @@ const useBoard = () => {
       setBoardName(newBoard.name)
       await fetchBoardById(newBoard.id)
       setIsLoading(false)
-    } catch (error: any) {
+    } catch (error) {
       setIsLoading(false)
-      toast.error(error.message)
+      handleError(error)
     }
   }
 
@@ -56,9 +56,9 @@ const useBoard = () => {
       const updatedBoard = await boardService.updateBoard({ id, name })
 
       setBoard(updatedBoard)
-    } catch (error: any) {
+    } catch (error) {
       setBoardName(previousName || '')
-      toast.error(error.message)
+      handleError(error)
     }
   }
 

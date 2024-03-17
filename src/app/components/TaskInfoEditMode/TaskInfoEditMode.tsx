@@ -2,6 +2,7 @@ import { clsx } from 'clsx'
 import React from 'react'
 
 import { ITaskInfoEditMode } from '@/types/types'
+import { VALUES } from '@/utils/constants'
 
 const TaskInfoEditMode = ({
   title,
@@ -10,7 +11,6 @@ const TaskInfoEditMode = ({
   warning,
   description,
   setDescription,
-  maxTitleLength,
 }: ITaskInfoEditMode) => {
   return (
     <div className="flex flex-col">
@@ -29,7 +29,7 @@ const TaskInfoEditMode = ({
           warning && 'warning-visible',
         )}
       >
-        {warning && `No more than ${maxTitleLength} characters`}
+        {warning && `No more than ${VALUES.MAX_CHARACTERS} characters`}
       </p>
 
       <textarea
