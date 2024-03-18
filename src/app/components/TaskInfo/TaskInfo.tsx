@@ -5,7 +5,10 @@ import { ITaskInfo } from '@/types/types'
 
 const TaskInfo = ({ title, description, attributes, listeners }: ITaskInfo) => {
   return (
-    <div className="flex flex-col">
+    <div
+      className="flex flex-col"
+      data-testid="task-info"
+    >
       <div className="flex flex-row justify-between">
         <h1 className="w-full border border-transparent text-xl font-bold">
           {title}

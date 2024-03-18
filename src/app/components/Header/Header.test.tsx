@@ -7,7 +7,7 @@ import Header from '@/app/components/Header/Header'
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 import { IBoardContext } from '@/types/types'
 
-describe('Header component', () => {
+describe('Header', () => {
   it('should render header with search input and load button', () => {
     render(<Header />)
     const header = screen.getByRole('banner')

@@ -22,7 +22,10 @@ const TaskActions = ({ editMode, onSave, setEditMode, id }: ITaskActions) => {
         </div>
       ) : (
         <div className="flex items-center justify-center gap-4">
-          <div onClick={() => setEditMode(true)}>
+          <div
+            onClick={() => setEditMode(true)}
+            data-testid="edit-button"
+          >
             <EditIcon />
           </div>
 

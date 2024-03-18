@@ -116,6 +116,7 @@ const Task = ({
 
   return (
     <div
+      data-testid="task"
       style={style}
       ref={setNodeRef}
       className="relative mb-4 flex h-[180px] min-h-[180px] w-full

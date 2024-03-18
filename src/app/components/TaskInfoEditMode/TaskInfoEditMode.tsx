@@ -13,8 +13,12 @@ const TaskInfoEditMode = ({
   setDescription,
 }: ITaskInfoEditMode) => {
   return (
-    <form className="flex flex-col">
+    <form
+      className="flex flex-col"
+      data-testid="task-info-edit-mode"
+    >
       <input
+        data-testid="task_title-input"
         value={title}
         onChange={handleChange}
         autoFocus
