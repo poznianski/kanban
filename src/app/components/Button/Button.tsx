@@ -18,7 +18,6 @@ const Button = ({ onClick, isAdd, label, sm, disabled }: IButton) => {
         clsx(
           'hover inline-flex h-[50px] w-full items-center justify-center gap-2 rounded bg-theme-main p-2 text-bg-secondary ease-in-out hover:bg-theme-secondary hover:text-text-main',
           sm && 'h-[36px] border',
-          disabled && 'disabled',
         ),
       )}
       onClick={onClick}

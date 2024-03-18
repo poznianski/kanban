@@ -8,10 +8,14 @@ import { InputChangeEvent } from '@/types/types'
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState<string>('')
   const { fetchBoardById } = useContext(BoardContext)
-  const buttonDisabled = searchQuery.length === 0
+  const buttonDisabled = !searchQuery
 
   const handleSearchChange = (event: InputChangeEvent) => {
     setSearchQuery(event.target.value)
+  }
+
+  const handleClick = () => {
+    fetchBoardById(searchQuery)
   }
 
   return (
@@ -24,7 +28,7 @@ const Header = () => {
 
         <div className="w-[200px]">
           <Button
-            onClick={() => fetchBoardById(searchQuery)}
+            onClick={handleClick}
             label="Load"
             disabled={buttonDisabled}
           />

@@ -1,5 +1,5 @@
 {
-  "ignorePatterns": ["next.config.js", "postcss.config.js"],
+  "ignorePatterns": ["next.config.js", "postcss.config.js", "babel.config.js"],
   "extends": [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",

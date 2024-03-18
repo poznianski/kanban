@@ -1,52 +1,55 @@
-import '@testing-library/jest-dom/vitest'
+import '@testing-library/jest-dom'
 
-import { fireEvent, screen } from '@testing-library/react'
-import { describe, expect, test, vi } from 'vitest'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { userEvent } from '@testing-library/user-event'
 
 import Header from '@/app/components/Header/Header'
-import { renderBoardContext } from '@/utils/renderBoardContext'
+import { BoardContext } from '@/app/context/BoardContext/BoardContext'
+import { IBoardContext } from '@/types/types'
 
-const mockFetchBoardById = vi.fn()
+describe('Header component', () => {
+  it('should render header with search input and load button', () => {
+    render(<Header />)
+    const header = screen.getByRole('banner')
+    const searchInput = screen.getByRole('textbox')
+    const loadButton = screen.getByRole('button', { name: /load/i })
 
-describe('Header', () => {
-  beforeEach(() => {
-    mockFetchBoardById.mockClear()
+    expect(header).toBeInTheDocument()
+    expect(searchInput).toBeInTheDocument()
+    expect(loadButton).toBeInTheDocument()
   })
 
-  test('updates search query on input change', () => {
-    const providerProps = {
-      fetchBoardById: mockFetchBoardById,
+  it('should disable load button when search input is cleared', async () => {
+    render(<Header />)
+    const searchInput = screen.getByRole('textbox')
+    const loadButton = screen.getByRole('button', { name: /load/i })
+
+    expect(loadButton).toBeDisabled()
+
+    await userEvent.type(searchInput, 'test')
+    await waitFor(() => expect(loadButton).toBeEnabled())
+
+    await userEvent.clear(searchInput)
+    await waitFor(() => expect(loadButton).toBeDisabled())
+  })
+
+  it('should call fetchBoardById with search query when load button is clicked', () => {
+    const fetchBoardByIdMock = jest.fn()
+    const boardContextValue: Partial<IBoardContext> = {
+      fetchBoardById: fetchBoardByIdMock,
     }
-    renderBoardContext(<Header />, { providerProps })
 
-    const input = screen.getByPlaceholderText(
-      'Enter a board ID here...',
-    ) as HTMLInputElement
+    render(
+      <BoardContext.Provider value={boardContextValue as IBoardContext}>
+        <Header />
+      </BoardContext.Provider>,
+    )
+    const loadButton = screen.getByRole('button', { name: /load/i })
+    const searchInput = screen.getByRole('textbox')
 
-    fireEvent.change(input, { target: { value: 'new board' } })
-    expect(input.value).toBe('new board')
-  })
-
-  test('calls fetchBoardById with the search query when load button is clicked', () => {
-    const providerProps = { fetchBoardById: mockFetchBoardById }
-    renderBoardContext(<Header />, { providerProps })
-
-    const input = screen.getByPlaceholderText('Enter a board ID here...')
-    fireEvent.change(input, { target: { value: 'new board' } })
-
-    const loadButton = screen.getByRole('button')
+    fireEvent.change(searchInput, { target: { value: 'example' } })
     fireEvent.click(loadButton)
-    expect(mockFetchBoardById).toHaveBeenCalledWith('new board')
-  })
 
-  test('fetchBoardById should not be called when searchInput is empty and button should be disabled', () => {
-    const providerProps = { fetchBoardById: mockFetchBoardById }
-    renderBoardContext(<Header />, { providerProps })
-
-    const button = screen.getByRole('button')
-    expect(button).toBeDisabled()
-
-    fireEvent.click(button)
-    expect(mockFetchBoardById).not.toHaveBeenCalled()
+    expect(fetchBoardByIdMock).toHaveBeenCalledWith('example')
   })
 })

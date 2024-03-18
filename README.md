@@ -6,6 +6,8 @@
 * Prisma
 * PostgreSQL
 * DnD-kit
+* Jest
+* Testing Library
 
 #optimistic rendering
 

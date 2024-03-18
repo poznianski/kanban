@@ -7,6 +7,7 @@ import useError from '@/app/hooks/useError'
 import { taskService } from '@/app/services/taskService'
 import { ITask } from '@/types/types'
 import { MESSAGES } from '@/utils/constants'
+import { findTaskIndexById } from '@/utils/findTaskIndexById'
 
 export const useDnD = (
   tasks: ITask[],
@@ -52,11 +53,13 @@ export const useDnD = (
 
     if (isOverATask) {
       setTasks((tasks) => {
-        const activeIndex = tasks.findIndex((task) => task.id === active.id)
-        const overIndex = tasks.findIndex((task) => task.id === over.id)
+        const activeIndex = findTaskIndexById(tasks, +active.id)
+        const overIndex = findTaskIndexById(tasks, +over.id)
+        let activeTaskStatus = tasks[activeIndex].status
+        const overTaskStatus = tasks[overIndex].status
 
-        if (tasks[activeIndex].status !== tasks[overIndex].status) {
-          tasks[activeIndex].status = tasks[overIndex].status
+        if (activeTaskStatus !== overTaskStatus) {
+          activeTaskStatus = overTaskStatus
           return arrayMove(tasks, activeIndex, overIndex - 1)
         }
 
@@ -68,7 +71,7 @@ export const useDnD = (
 
     if (isOverAColumn) {
       setTasks((tasks) => {
-        const activeIndex = tasks.findIndex((task) => task.id === active.id)
+        const activeIndex = findTaskIndexById(tasks, +active.id)
 
         tasks[activeIndex].status = String(over.id)
 

@@ -104,7 +104,7 @@ const Task = ({
   if (isDragging) {
     return (
       <div
-        className="mb-4 min-h-[140px] w-full rounded-2xl border-2
+        className="mb-4 h-[180px] min-h-[180px] w-full rounded-2xl border-2
         border-text-main bg-theme-main p-4 opacity-50"
         style={style}
         ref={setNodeRef}
