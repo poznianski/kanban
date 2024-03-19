@@ -9,6 +9,7 @@ import TaskActions from '@/app/components/TaskActions/TaskActions'
 import TaskInfo from '@/app/components/TaskInfo/TaskInfo'
 import TaskInfoEditMode from '@/app/components/TaskInfoEditMode/TaskInfoEditMode'
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
+import useClickOutside from '@/app/hooks/useClickOutside'
 import { InputChangeEvent, ITask, KeyboardEvent } from '@/types/types'
 import { VALUES } from '@/utils/constants'
 
@@ -27,6 +28,7 @@ const Task = ({
   const [warning, setWarning] = useState(false)
   const prevTitle = useRef(title)
   const prevDescription = useRef(description)
+  const ref = useRef(null)
 
   const {
     attributes,
@@ -51,6 +53,8 @@ const Task = ({
     prevDescription.current = description
     setEditMode(false)
   }
+
+  useClickOutside(ref, exitEditMode)
 
   const handleInputKeyDown = (event: KeyboardEvent) => {
     const isTextArea = event.target instanceof HTMLTextAreaElement
@@ -136,14 +140,16 @@ const Task = ({
         )}
 
         {editMode && (
-          <TaskInfoEditMode
-            handleInputKeyDown={handleInputKeyDown}
-            handleChange={handleChange}
-            warning={warning}
-            title={title}
-            description={description}
-            setDescription={setDescription}
-          />
+          <div ref={ref}>
+            <TaskInfoEditMode
+              handleInputKeyDown={handleInputKeyDown}
+              handleChange={handleChange}
+              warning={warning}
+              title={title}
+              description={description}
+              setDescription={setDescription}
+            />
+          </div>
         )}
 
         <div className={clsx('task_hover-actions', showActions && 'visible')}>
