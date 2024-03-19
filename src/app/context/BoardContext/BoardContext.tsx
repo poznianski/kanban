@@ -4,7 +4,7 @@ import React, { createContext, ReactNode, useState } from 'react'
 
 import { initialState } from '@/app/context/BoardContext/initialValue'
 import useBoard from '@/app/hooks/useBoard'
-import { useDnD } from '@/app/hooks/useDnD'
+import { useDnD } from '@/app/hooks/useDnD/useDnD'
 import useTask from '@/app/hooks/useTask'
 import { IBoardContext } from '@/types/types'
 

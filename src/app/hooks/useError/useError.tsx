@@ -8,8 +8,10 @@ const useError = () => {
   const { setErrorMessage } = useContext(BoardContext)
 
   return (error: any, message?: string) => {
-    setErrorMessage(error.message || message || MESSAGES.UNEXPECTED_ERROR)
-    toast.error(error.message || message || MESSAGES.UNEXPECTED_ERROR)
+    const errorMessage =
+      (error && error.message) || message || MESSAGES.UNEXPECTED_ERROR
+    setErrorMessage(errorMessage)
+    toast.error(errorMessage)
   }
 }
 

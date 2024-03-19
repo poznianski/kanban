@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 
-import useError from '@/app/hooks/useError'
+import useError from '@/app/hooks/useError/useError'
 import { taskService } from '@/app/services/taskService'
 import { IBoard, ITask } from '@/types/types'
 import { MESSAGES } from '@/utils/constants'

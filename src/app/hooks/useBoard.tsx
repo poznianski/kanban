@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
-import useError from '@/app/hooks/useError'
+import useError from '@/app/hooks/useError/useError'
 import { boardService } from '@/app/services/boardService'
 import { IBoard } from '@/types/types'
 
