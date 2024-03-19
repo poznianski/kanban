@@ -4,7 +4,7 @@ import {
   DragStartEvent,
 } from '@dnd-kit/core'
 import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities'
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, ReactNode, SetStateAction } from 'react'
 
 export interface IBoard {
   id: string
@@ -67,6 +67,16 @@ export interface ITaskActions {
   onSave: () => void
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>
   id: number
+}
+
+export interface IModalWrapper {
+  children: ReactNode
+  onClose: () => void
+}
+
+export interface IConfirmDelete {
+  onClose: () => void
+  onConfirm: () => void
 }
 
 export type InputChangeEvent = React.ChangeEvent<HTMLInputElement>

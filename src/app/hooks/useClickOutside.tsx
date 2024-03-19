@@ -6,11 +6,7 @@ const useClickOutside = (
 ): void => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent): void => {
-      if (
-        ref.current &&
-        !ref.current.contains(event.target as Node) &&
-        !(event.target as HTMLElement).classList.contains('dropdown-item')
-      ) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
         onClose()
       }
     }

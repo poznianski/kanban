@@ -1,13 +1,16 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 
 import Button from '@/app/components/Button/Button'
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
 import DeleteIcon from '@/app/icons/DeleteIcon'
 import EditIcon from '@/app/icons/EditIcon'
+import ConfirmDelete from '@/app/modals/ConfirmDelete/ConfirmDelete'
 import { ITaskActions } from '@/types/types'
 
 const TaskActions = ({ editMode, onSave, setEditMode, id }: ITaskActions) => {
   const { deleteTask } = useContext(BoardContext)
+
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false)
 
   return (
     <div className="flex gap-4">
@@ -29,10 +32,17 @@ const TaskActions = ({ editMode, onSave, setEditMode, id }: ITaskActions) => {
             <EditIcon />
           </div>
 
-          <div onClick={() => deleteTask(id)}>
+          <div onClick={() => setShowConfirmDelete(true)}>
             <DeleteIcon />
           </div>
         </div>
+      )}
+
+      {showConfirmDelete && (
+        <ConfirmDelete
+          onClose={() => setShowConfirmDelete(false)}
+          onConfirm={() => deleteTask(id)}
+        />
       )}
     </div>
   )
