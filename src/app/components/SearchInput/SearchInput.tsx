@@ -12,6 +12,7 @@ const SearchInput = ({ searchQuery, handleSearchChange }: ISearchInput) => {
 
   const handleKeyDown = (e: InputKeyEvent) => {
     if (e.key === 'Enter') {
+      e.preventDefault()
       fetchBoardById(searchQuery)
     }
   }

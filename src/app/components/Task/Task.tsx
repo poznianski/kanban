@@ -9,7 +9,6 @@ import TaskActions from '@/app/components/TaskActions/TaskActions'
 import TaskInfo from '@/app/components/TaskInfo/TaskInfo'
 import TaskInfoEditMode from '@/app/components/TaskInfoEditMode/TaskInfoEditMode'
 import { BoardContext } from '@/app/context/BoardContext/BoardContext'
-import useClickOutside from '@/app/hooks/useClickOutside'
 import { InputChangeEvent, ITask, KeyboardEvent } from '@/types/types'
 import { VALUES } from '@/utils/constants'
 
@@ -53,8 +52,6 @@ const Task = ({
     prevDescription.current = description
     setEditMode(false)
   }
-
-  useClickOutside(taskInfoEditModeRef, exitEditMode)
 
   const handleInputKeyDown = (event: KeyboardEvent) => {
     const isTextArea = event.target instanceof HTMLTextAreaElement

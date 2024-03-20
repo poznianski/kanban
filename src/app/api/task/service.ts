@@ -31,21 +31,22 @@ export const createTask = async ({
     },
   })
 
-  const newPosition = (lastTask._max.position ?? 0) + 1
+  const newPosition =
+    lastTask._max.position === null ? 0 : lastTask._max.position + 1
 
   return prisma.task.create({
     data: { id, boardId, title, description, status, position: newPosition },
   })
 }
 
-export const updateTask = ({
+export const updateTask = async ({
   id,
   title,
   description,
   status,
   position,
 }: ITask) =>
-  prisma.task.update({
+  await prisma.task.update({
     where: { id },
     data: {
       title,
@@ -65,11 +66,11 @@ export const updateTasksPositions = async (tasks: ITask[]) => {
       },
     })
   })
-  return await prisma.$transaction(updates)
+  return prisma.$transaction(updates)
 }
 
-export const deleteTask = (id: number) => {
-  prisma.task.delete({
+export const deleteTask = async (id: number) => {
+  return prisma.task.delete({
     where: { id },
   })
 }

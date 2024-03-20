@@ -42,7 +42,7 @@ router
   })
   .delete(async (_req, { params: { id } }) => {
     try {
-      await deleteTask(id)
+      await deleteTask(Number(id))
 
       return NextResponse.json('The task was successfully deleted', {
         status: 200,

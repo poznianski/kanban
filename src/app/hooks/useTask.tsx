@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 import useError from '@/app/hooks/useError/useError'
@@ -22,10 +22,6 @@ const useTask = (board: IBoard | null) => {
       status: 'ToDo',
       boardId: board.id,
       description: 'description',
-      position:
-        tasks.length === 0
-          ? 0
-          : Math.max(...tasks.map((task) => task.position)),
     }
 
     setTasks((prev) => [...prev, newTask])
@@ -100,6 +96,10 @@ const useTask = (board: IBoard | null) => {
       handleError(error)
     }
   }
+
+  useEffect(() => {
+    setTasks(board?.tasks || [])
+  }, [board])
 
   return {
     tasks,

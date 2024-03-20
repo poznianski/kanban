@@ -2,27 +2,31 @@ import { IBoard } from '@/types/types'
 
 import prisma from '../../../../prisma/db'
 
-export const getAllBoards = () => prisma.board.findMany()
+export const getAllBoards = async () => await prisma.board.findMany()
 
-export const getBoardById = (id: string) =>
-  prisma.board.findUnique({
+export const getBoardById = async (id: string) =>
+  await prisma.board.findUnique({
     where: {
       id,
     },
     include: {
-      tasks: true,
+      tasks: {
+        orderBy: {
+          position: 'asc',
+        },
+      },
     },
   })
 
-export const createBoard = ({ name }: { name: string }) =>
-  prisma.board.create({
+export const createBoard = async ({ name }: { name: string }) =>
+  await prisma.board.create({
     data: {
       name,
     },
   })
 
-export const updateBoard = ({ id, name }: IBoard) =>
-  prisma.board.update({
+export const updateBoard = async ({ id, name }: IBoard) =>
+  await prisma.board.update({
     where: {
       id,
     },
@@ -31,8 +35,8 @@ export const updateBoard = ({ id, name }: IBoard) =>
     },
   })
 
-export const deleteBoard = ({ id }: { id: string }) =>
-  prisma.board.delete({
+export const deleteBoard = async ({ id }: { id: string }) =>
+  await prisma.board.delete({
     where: {
       id,
     },

@@ -14,6 +14,7 @@ const BoardHeader = () => {
 
   const handleKeyDown = (event: InputKeyEvent) => {
     if (event.key === 'Enter') {
+      event.preventDefault()
       handleBoardNameUpdate()
     }
   }

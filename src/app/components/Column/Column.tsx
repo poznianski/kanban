@@ -33,19 +33,12 @@ const Column = ({ title, tasks }: IColumn) => {
 
       <div className="flex flex-col items-center overflow-y-auto p-4">
         <SortableContext items={tasksIds}>
-          {tasks.map(
-            ({ id, title, boardId, description, status, position }) => (
-              <Task
-                key={id}
-                title={title}
-                boardId={boardId}
-                id={id}
-                description={description}
-                status={status}
-                position={position}
-              />
-            ),
-          )}
+          {tasks.map((task) => (
+            <Task
+              key={task.id}
+              {...task}
+            />
+          ))}
         </SortableContext>
       </div>
 
