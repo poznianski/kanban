@@ -44,18 +44,12 @@ const useBoard = () => {
   const updateBoard = async ({ id, name }: IBoard) => {
     const previousName = board?.name
 
-    const updatedBoard: IBoard = {
-      id,
-      name,
-    }
-
-    setBoard(updatedBoard)
-    setBoardName(updatedBoard.name)
+    setBoardName(name)
 
     try {
       const updatedBoard = await boardService.updateBoard({ id, name })
 
-      setBoard(updatedBoard)
+      setBoardName(updatedBoard.name)
     } catch (error) {
       setBoardName(previousName || '')
       handleError(error)
